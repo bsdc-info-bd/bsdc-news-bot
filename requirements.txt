@@ -2,3 +2,4 @@ feedparser==6.0.11
 google-api-python-client==2.116.0
 google-auth==2.27.0
 requests==2.31.0
+beautifulsoup4==4.12.3
