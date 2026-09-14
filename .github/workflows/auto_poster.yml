@@ -1,32 +1,34 @@
-name: bsdc news High-Frequency Auto-Poster
+name: bsdc news V3 Enterprise Engine
 
 on:
   schedule:
-    - cron: '*/15 * * * *' # Executes every 15 minutes
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 
 jobs:
-  publish-news:
+  core-engine:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Initialize Python 3.10 Runtime
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+          cache: 'pip' # Speeds up installation of 15+ packages
 
-      - name: Install Dependencies
+      - name: Install Enterprise Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Auto-Poster Bot
+      - name: Execute bsdc news Neural Engine
         env:
           BLOG_ID: ${{ secrets.BLOG_ID }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          INDEXING_SERVICE_ACCOUNT_JSON: ${{ secrets.INDEXING_SERVICE_ACCOUNT_JSON }}
         run: |
           python bot.py
