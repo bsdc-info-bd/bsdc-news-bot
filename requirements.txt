@@ -4,7 +4,7 @@ google-auth==2.27.0
 requests==2.31.0
 beautifulsoup4==4.12.3
 trafilatura==1.12.0
-lxml==5.1.0
+lxml>=5.2.2
 cloudscraper==1.2.71
 fake-useragent==1.4.0
 tenacity==8.2.3
