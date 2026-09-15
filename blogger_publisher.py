@@ -8,7 +8,8 @@ from tenacity import retry, stop_after_attempt, wait_exponential
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=10))
 def get_blogger_service():
     creds = Credentials(None, refresh_token=REFRESH_TOKEN, client_id=CLIENT_ID,
-                        client_secret=CLIENT_SECRET, token_uri="[https://oauth2.googleapis.com/token](https://oauth2.googleapis.com/token)")
+                        client_secret=CLIENT_SECRET, token_uri="https://oauth2.googleapis.com/token"
+                       )
     return build("blogger", "v3", credentials=creds)
 
 def compose_google_news_schema(title, main_img):
