@@ -4,12 +4,17 @@ from colorama import init, Fore
 
 init(autoreset=True)
 
-BLOG_ID = os.environ.get("BLOG_ID", "").strip()
-CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "").strip()
-CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "").strip()
-REFRESH_TOKEN = os.environ.get("GOOGLE_REFRESH_TOKEN", "").strip()
-INDEXING_JSON = os.environ.get("INDEXING_SERVICE_ACCOUNT_JSON", "").strip()
-GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
+def sanitize_secret(key):
+    val = os.environ.get(key, "").strip()
+    # Strip stray brackets or quotes pasted by accident
+    return val.strip("[]\"' ")
+
+BLOG_ID = sanitize_secret("BLOG_ID")
+CLIENT_ID = sanitize_secret("GOOGLE_CLIENT_ID")
+CLIENT_SECRET = sanitize_secret("GOOGLE_CLIENT_SECRET")
+REFRESH_TOKEN = sanitize_secret("GOOGLE_REFRESH_TOKEN")
+INDEXING_JSON = sanitize_secret("INDEXING_SERVICE_ACCOUNT_JSON")
+GEMINI_KEY = sanitize_secret("GEMINI_API_KEY")
 
 if not all([BLOG_ID, CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN, GEMINI_KEY]):
     print(Fore.RED + "❌ ERROR: Missing required GitHub Secrets.")
