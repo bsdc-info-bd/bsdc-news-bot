@@ -1,14 +1,11 @@
 feedparser==6.0.11
 google-api-python-client==2.116.0
 google-auth==2.27.0
+google-genai==0.1.1
 requests==2.31.0
 beautifulsoup4==4.12.3
 trafilatura==1.12.0
 lxml>=5.2.2
 cloudscraper==1.2.71
-fake-useragent==1.4.0
 tenacity==8.2.3
 colorama==0.4.6
-bleach==6.1.0
-yake==0.4.8
-pytz==2024.1
