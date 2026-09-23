@@ -30,6 +30,32 @@ ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/{model}:gene
 KEY_HELP = ("Create a NEW key at https://aistudio.google.com/api-keys (new keys start with 'AQ.'), "
             "then update the GEMINI_API_KEY repository secret. Standard 'AIza…' keys are being "
             "rejected by the Gemini API since September 2026.")
+AQ_KEY_HELP = (
+    "Your key is already the new 'AQ.' type and is sent exactly as Google documents "
+    "(x-goog-api-key header on generativelanguage.googleapis.com), so Google is refusing the "
+    "key/project itself rather than the format. Work through these in order: "
+    "(1) Cloud Console → APIs & Services → Credentials → this key → API restrictions → "
+    "'Restrict key' → allow only 'Gemini API' — unrestricted keys are rejected. "
+    "(2) Confirm the 'Generative Language API' is enabled for that project, or simply create a "
+    "fresh key in a NEW project (AI Studio → 'Create API key in new project'); some accounts are "
+    "being handed AQ. keys that Google's own gateway refuses. "
+    "(3) Prove it with AI Studio's own cURL snippet — if that also returns 401 "
+    "ACCESS_TOKEN_TYPE_UNSUPPORTED the problem is Google-side and no code change can fix it. "
+    "(4) Free workaround that needs no Google fix: add a GROQ_API_KEY repository secret "
+    "(https://console.groq.com/keys, free tier). This bot fails over to Groq automatically and "
+    "keeps writing full AI articles while Gemini is broken."
+)
+
+
+def key_help(key: str) -> str:
+    """Repair instructions that match the kind of key that was actually rejected."""
+    if key.startswith("AQ."):
+        return AQ_KEY_HELP
+    if key.startswith("AIza"):
+        return KEY_HELP
+    return ("This does not look like a Gemini API key. Create one at "
+            "https://aistudio.google.com/api-keys (it starts with 'AQ.') and update the "
+            "GEMINI_API_KEY repository secret — or add a free GROQ_API_KEY as the AI provider.")
 
 
 def describe_key(key: str) -> str:
@@ -130,7 +156,7 @@ class GeminiProvider(AIProvider):
                 body = self._body(model, req, thinking=True)
                 continue
             if status == 400 and ("API key not valid" in message or "API_KEY_INVALID" in reason):
-                raise AuthError(f"Gemini rejected the API key: {message}", hint=KEY_HELP)
+                raise AuthError(f"Gemini rejected the API key: {message}", hint=key_help(self.api_key))
             if status == 400 and "location is not supported" in message.lower():
                 raise AuthError(f"Gemini not available from this location: {message}")
             if status == 401:
@@ -197,7 +223,7 @@ class GeminiProvider(AIProvider):
             raise AuthError(
                 f"Gemini answered 401 UNAUTHENTICATED for every model ({', '.join(self.models)}). "
                 f"Key type: {describe_key(self.api_key)}.",
-                hint=KEY_HELP,
+                hint=key_help(self.api_key),
             )
         if last:
             raise last

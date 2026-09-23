@@ -76,7 +76,8 @@ def run_doctor(settings: Settings, deep: bool = True) -> int:
     if deep:
         router = build_router(settings)
         if not router.providers:
-            c.warn("AI writer", "no AI provider key set — extractive briefs will be used")
+            c.warn("AI writer", "no AI provider key set — extractive briefs will be used. "
+                       "Free option: add a GROQ_API_KEY secret (https://console.groq.com/keys).")
         for provider in router.providers:
             req = GenerationRequest(title="Doctor test", text="The bsdc news doctor checks that the AI provider "
                                     "works. It asks for a tiny JSON answer. " * 5, source="bsdc news",

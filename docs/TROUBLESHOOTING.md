@@ -29,12 +29,46 @@ Start with the doctor. It checks every secret and API live and tells you how to 
 3. GitHub → **Settings → Secrets and variables → Actions → `GEMINI_API_KEY` → Update**, and paste the new key. Paste only the key: no quotes, no spaces.
 4. Run the workflow with task **doctor**. You should see `✅ AI: gemini  model gemini-3.x-flash responded`.
 
-Still 401 with a fresh `AQ.` key? Some Google accounts have had problems with the new key rollout. Add a second free provider so the site keeps publishing full AI articles:
+Still 401 with a fresh `AQ.` key? Some Google accounts have had problems with the new key rollout — as of
+September 2026 there are multiple open reports where even AI Studio's own cURL snippet returns
+`401 ACCESS_TOKEN_TYPE_UNSUPPORTED` for a brand-new `AQ.` key. Work through this checklist:
+
+1. **Restrict the key.** Cloud Console → APIs & Services → Credentials → the key → *API restrictions* →
+   *Restrict key* → allow only **Gemini API**. Unrestricted keys are being rejected.
+2. **Check the API is enabled** for that project (*Generative Language API*), or skip the question entirely:
+   in AI Studio use **Create API key in new project** and use that key instead.
+3. **Prove where the fault is.** Copy AI Studio's own cURL snippet for the key and run it. If that also
+   returns 401, the problem is on Google's side for that account/project — no code change can fix it.
+   (This bot already sends the key exactly as Google documents: `x-goog-api-key` header on
+   `generativelanguage.googleapis.com/v1beta`, never `Authorization: Bearer`, never a `?key=` query
+   parameter — both of which are rejected for `AQ.` keys.)
+4. **Add a second free provider** so the site keeps publishing full AI articles regardless:
 
 * **Groq**: https://console.groq.com/keys → secret `GROQ_API_KEY` (free tier: about 1,000 requests/day on gpt-oss models)
 * **OpenRouter**: https://openrouter.ai/settings/keys → secret `OPENROUTER_API_KEY` (uses the free `openrouter/free` router)
 
 When a provider fails, the bot switches to the next one automatically. It pauses a broken provider for 6 hours, or until you change its key.
+
+### Confirmed behaviour in CI (2026-09-23, run 35844002428)
+
+The Gemini secret on this repository is an `AQ.` key (53 chars) and Google answers
+`401 ACCESS_TOKEN_TYPE_UNSUPPORTED` for all seven models. The run therefore did this, in 17 seconds:
+
+```text
+📝 Connecting to Blogger   Blog: BSDC News (https://news.bsdc.info.bd) — 150 recent posts indexed for de-duplication
+📡 Fetching feeds          15/15 feeds ✓ — 210 items
+📈 Trends                  40 trending terms loaded (US, BD)
+🎯 20 candidates after filtering, ranking and de-duplication (budget 1)
+🔑 gemini authentication failed — provider disabled for this run   ← the only real error
+✅ LIVE [brief · quality 100 · 195 words · Mobile] https://news.bsdc.info.bd/2026/09/the-iphone-duos-under-display-camera-is.html
+📡 WebSub hubs notified (4)
+🏁 Done in 17s — published 1, skipped 0, failed 0, exit code 1
+```
+
+So: **publishing works end-to-end.** The post went out through the extractive news-brief writer (labelled
+"News Brief"), and the run is red *only* to tell you the AI key needs attention — under v5 the identical
+situation reported ✅ success while publishing nothing. Add a working AI key (steps above) and the same run
+publishes full AI-written articles instead of briefs.
 
 ## Blogger: `invalid_grant` / "Google OAuth refresh failed"
 
