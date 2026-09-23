@@ -1,0 +1,144 @@
+name: bsdc news 6.0 Smart Publisher
+
+on:
+  schedule:
+    # GitHub drops many jobs scheduled at the top of the hour (peak load), which is why the old
+    # "*/15" schedule only fired a few times a day. Odd minutes are far more reliable.
+    - cron: "7,22,37,52 * * * *"
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "What to run"
+        type: choice
+        options: [run, doctor, feeds]
+        default: run
+      dry_run:
+        description: "Dry run (do everything except publishing)"
+        type: boolean
+        default: false
+      max_posts:
+        description: "Max posts this run (empty = settings.yaml)"
+        type: string
+        default: ""
+      mode:
+        description: "Publish mode override"
+        type: choice
+        options: ["", live, draft]
+        default: ""
+
+permissions:
+  contents: write   # push run state to the `bot-data` branch
+  actions: write    # keep the schedule alive (GitHub disables crons after 60 idle days)
+
+concurrency:
+  group: bsdc-news-publisher
+  cancel-in-progress: false   # never kill a run in the middle of publishing
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      DATA_DIR: botdata
+      DATA_BRANCH: bot-data
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+
+      - name: Restore bot state
+        run: |
+          mkdir -p "$DATA_DIR"
+          if git fetch --quiet --depth=1 origin "$DATA_BRANCH" 2>/dev/null; then
+            git archive --format=tar FETCH_HEAD | tar -xf - -C "$DATA_DIR"
+            echo "Restored state from branch $DATA_BRANCH"
+          else
+            echo "No $DATA_BRANCH branch yet — first run starts with fresh state"
+          fi
+
+      - name: Run bsdc news
+        env:
+          # ── required (same names as v5) ──
+          BLOG_ID: ${{ secrets.BLOG_ID }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          # ── AI writers (all optional, all have free tiers) ──
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          # ── indexing (optional) ──
+          INDEXING_SERVICE_ACCOUNT_JSON: ${{ secrets.INDEXING_SERVICE_ACCOUNT_JSON }}
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          BING_WEBMASTER_API_KEY: ${{ secrets.BING_WEBMASTER_API_KEY }}
+          # ── notifications & social (optional) ──
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+          FACEBOOK_PAGE_TOKEN: ${{ secrets.FACEBOOK_PAGE_TOKEN }}
+          MASTODON_BASE_URL: ${{ secrets.MASTODON_BASE_URL }}
+          MASTODON_ACCESS_TOKEN: ${{ secrets.MASTODON_ACCESS_TOKEN }}
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          OPENVERSE_CLIENT_ID: ${{ secrets.OPENVERSE_CLIENT_ID }}
+          OPENVERSE_CLIENT_SECRET: ${{ secrets.OPENVERSE_CLIENT_SECRET }}
+          # ── run options ──
+          BSDC_STATE_PATH: ${{ env.DATA_DIR }}/state.json
+          BSDC_REPORT_DIR: ${{ env.DATA_DIR }}/reports
+          BSDC_DASHBOARD: ${{ env.DATA_DIR }}/index.html
+          BSDC_SITE_URL: ${{ vars.SITE_URL }}
+          BSDC_MAX_POSTS: ${{ inputs.max_posts }}
+          BSDC_MODE: ${{ inputs.mode }}
+          TASK: ${{ inputs.task || 'run' }}
+          DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
+        run: |
+          args=("$TASK")
+          if [ "$TASK" = "run" ] && [ "$DRY_RUN" = "true" ]; then args+=("--dry-run"); fi
+          python main.py "${args[@]}"
+
+      - name: Save bot state
+        if: always()
+        run: |
+          [ -f "$DATA_DIR/state.json" ] || { echo "No state to save"; exit 0; }
+          touch "$DATA_DIR/.nojekyll"
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          export GIT_INDEX_FILE="$RUNNER_TEMP/botdata.index"
+          for attempt in 1 2 3; do
+            rm -f "$GIT_INDEX_FILE"
+            git add -f "$DATA_DIR"
+            tree=$(git write-tree --prefix="$DATA_DIR/")
+            parent=""
+            if git fetch --quiet --depth=1 origin "$DATA_BRANCH" 2>/dev/null; then parent=$(git rev-parse FETCH_HEAD); fi
+            if [ -n "$parent" ] && [ "$(git rev-parse "$parent^{tree}")" = "$tree" ]; then
+              echo "State unchanged"; exit 0
+            fi
+            commit=$(git commit-tree "$tree" ${parent:+-p "$parent"} -m "bot: run ${GITHUB_RUN_ID} state [skip ci]")
+            if git push --quiet origin "$commit:refs/heads/$DATA_BRANCH"; then
+              echo "State saved to branch $DATA_BRANCH"; exit 0
+            fi
+            echo "Push failed (attempt $attempt), retrying…"; sleep $((attempt * 3))
+          done
+          echo "::warning::Could not save bot state to $DATA_BRANCH"
+
+      - name: Keep schedule alive
+        if: always() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${GITHUB_REPOSITORY}/actions/workflows/auto_poster.yml/enable" --silent || true

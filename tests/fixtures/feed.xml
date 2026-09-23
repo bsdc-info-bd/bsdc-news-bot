@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+  <title>Example Tech</title>
+  <link>https://example-tech.com/</link>
+  <description>Example technology news</description>
+  <item>
+    <title>Nvidia unveils Rubin Ultra AI chip with 2x efficiency</title>
+    <link>https://example-tech.com/2026/09/22/nvidia-rubin-ultra/?utm_source=rss&amp;utm_medium=feed</link>
+    <pubDate>{RECENT}</pubDate>
+    <dc:creator>Jane Doe</dc:creator>
+    <category>AI</category>
+    <description><![CDATA[<p>Nvidia's new Rubin Ultra accelerator doubles performance per watt.</p><img src="https://cdn.example-tech.com/rubin-thumb.jpg">]]></description>
+    <media:content url="https://cdn.example-tech.com/rubin-ultra-feed.jpg" medium="image" width="1200" height="675"/>
+  </item>
+  <item>
+    <title>Samsung Promo Codes: 40% Off in September 2026</title>
+    <link>https://example-tech.com/coupons/samsung/</link>
+    <pubDate>{RECENT}</pubDate>
+    <description>Save big with these codes.</description>
+  </item>
+  <item>
+    <title>Old story about a smartphone launch from last month</title>
+    <link>https://example-tech.com/2026/08/01/old-phone/</link>
+    <pubDate>Sat, 01 Aug 2026 10:00:00 GMT</pubDate>
+    <description>Old news.</description>
+  </item>
+  <item>
+    <title>Hackers exploit zero-day flaw in popular router firmware to steal data</title>
+    <link>https://example-tech.com/2026/09/22/router-zero-day/</link>
+    <pubDate>{RECENT}</pubDate>
+    <description>A critical flaw is being exploited in the wild.</description>
+  </item>
+</channel>
+</rss>

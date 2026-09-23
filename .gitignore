@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Local secrets — never commit these
+.env
+*.env
+client_secret*.json
+service_account*.json
+token.json
+
+# Bot runtime data (stored on the `bot-data` branch by the workflow)
+botdata/
+data/
+reports/
+public/
+preview.html

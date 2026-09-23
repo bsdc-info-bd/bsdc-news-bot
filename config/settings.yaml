@@ -1,0 +1,65 @@
+# bsdc news — main configuration
+# Every value here is optional; missing values fall back to safe defaults
+# (see bsdc_news/settings.py). Secrets NEVER go in this file — use GitHub
+# repository secrets instead (see docs/SETUP.md).
+
+site:
+  name: bsdc news
+  url: ""                      # leave empty to auto-detect from Blogger
+  language: en
+  timezone: Asia/Dhaka
+  author_name: bsdc news Desk
+  logo_url: ""                 # used in NewsArticle schema (recommended for Google News)
+  about: >-
+    bsdc news is a digital news engine providing structured coverage on software
+    architecture, web technologies, and tech updates.
+
+publishing:
+  max_posts_per_run: 1         # first-run test value; raise to 4 once you are happy with a post
+  # max_posts_per_run: 4       # normal production value
+  max_posts_per_day: 24
+  spread_evenly: true          # pace posts through the day (timezone below) instead of front-loading
+  max_per_source_per_run: 2
+  max_per_category_per_run: 2
+  max_article_age_hours: 36
+  mode: live                   # live | draft (drafts for manual review)
+  stagger_minutes: 0           # e.g. 20 → post 1 now, post 2 in 20 min (Blogger scheduling)
+  quiet_hours: ""              # e.g. "01:00-06:00" (site timezone) → fewer posts at night
+  quiet_hours_max_posts: 1
+  ai_failure_mode: brief       # brief = publish an attributed news brief | draft | skip
+  brief_label: News Brief      # extra label for posts written without AI ("" = none)
+  min_quality_score: 55
+  require_image: true
+  labels_max: 6
+  default_labels: [Tech News]
+
+ai:
+  enabled: true
+  # Tried in this order; providers without a key are ignored automatically.
+  providers: [gemini, groq, openrouter, cloudflare, huggingface]
+  # Tried in order; each model has its own free daily quota. Retired models are skipped automatically.
+  gemini_models: [gemini-3.6-flash, gemini-3.7-flash, gemini-3.5-flash, gemini-3.5-flash-lite, gemini-flash-latest, gemini-3.1-flash-lite, gemini-2.5-flash-lite]
+  groq_models: [openai/gpt-oss-120b, openai/gpt-oss-20b, qwen/qwen3.6-27b]
+  openrouter_models: [openrouter/free]
+  target_words: 750
+  min_words: 450
+  max_calls_per_run: 12
+  prompt_file: prompts/article.md
+
+images:
+  proxy: true                  # serve images via the free wsrv.nl CDN (WebP, resized)
+  openverse_fallback: true     # free CC-licensed image when the article has none
+
+ranking:
+  trends_geo: [US, BD]         # Google Trends RSS regions used to boost trending stories
+
+indexing:
+  google_indexing_api: true    # needs INDEXING_SERVICE_ACCOUNT_JSON secret
+  indexnow: true               # needs INDEXNOW_KEY secret + key file on your domain
+  websub_ping: true
+
+health:
+  fail_on_zero_published: true # red ❌ run when nothing could be published (no more fake "success")
+  fail_on_ai_auth_error: daily # always | daily | never — red run when an AI key is rejected
+  alert_after_consecutive_failures: 3   # Telegram/Discord alert after N failed runs in a row
+  realert_every_failed_runs: 12

@@ -1,30 +1,21 @@
-from google import genai
-from config import GEMINI_KEY
-from colorama import Fore
+"""Backward-compatible wrapper around :mod:`bsdc_news.ai` (v5 API).
 
-ai_client = genai.Client(api_key=GEMINI_KEY)
+The v5 version built a ``genai.Client`` at import time and hard-coded the
+``gemini-2.5-flash`` model; every call failed with 401 in production.
+"""
+
+from bsdc_news.ai.base import GenerationRequest
+from bsdc_news.ai.router import build_router
+from bsdc_news.content.sanitize import sanitize_html
+from bsdc_news.settings import load_settings
+
+_router = None
+
 
 def rewrite_with_gemini(title, raw_text):
-    prompt = f"""
-    You are a senior news editor for 'bsdc news'. Rewrite this raw content into a high-authority, 700+ word, fully structured article optimized for Google News.
-
-    JOURNALISTIC STRUCTURE & RULES:
-    1. Output ONLY valid body HTML (<p>, <h2>, <h3>, <ul>, <li>, <strong>, <mark>, blockquote). No <html>, <body>, or ```html wrappers.
-    2. Format using traditional news style: Inverted Pyramid, Lead Paragraph, Key Facts, Context, and Expert Outlook.
-    3. Remove all original promo links, author tags, and source website names from the article narrative.
-    4. Fix all broken sentences, bad line breaks, and messy spaces.
-    5. Embed 2-3 clear subheadings (<h2>) and highlight essential takeaways with <mark> tags.
-
-    Headline: {title}
-    Source Text:
-    {raw_text[:4500]}
-    """
-    try:
-        response = ai_client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=prompt,
-        )
-        return response.text.replace("```html", "").replace("```", "").strip()
-    except Exception as e:
-        print(Fore.RED + f"   ⚠️ AI Generation Error: {e}")
-        return None
+    """Return article body HTML, or None when every AI provider fails."""
+    global _router
+    if _router is None:
+        _router = build_router(load_settings())
+    draft = _router.generate(GenerationRequest(title=title, text=raw_text, source="source", url=""))
+    return sanitize_html(draft.body_html) if draft else None

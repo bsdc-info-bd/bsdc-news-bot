@@ -1,0 +1,80 @@
+# bsdc news — news sources
+# ------------------------------------------------------------------
+# Add, remove or disable feeds here. No code changes needed.
+#   url       RSS/Atom feed URL (required)
+#   name      display name used for attribution
+#   category  default category (auto-classification can override it)
+#   weight    ranking weight: 1.0 = normal, 1.2 = preferred, 0.8 = less
+#   max_items how many newest entries to consider per run
+#   enabled   false = keep in the list but don't use
+# ------------------------------------------------------------------
+
+feeds:
+  # ── Original v5 sources ──
+  - url: https://techcrunch.com/feed/
+    name: TechCrunch
+    category: Business
+    weight: 1.2
+  - url: https://feeds.arstechnica.com/arstechnica/index
+    name: Ars Technica
+    category: Technology
+    weight: 1.2
+  - url: https://www.theverge.com/rss/index.xml
+    name: The Verge
+    category: Technology
+    weight: 1.15
+  - url: https://www.wired.com/feed/rss
+    name: WIRED
+    category: Technology
+    weight: 1.0
+  - url: https://www.engadget.com/rss.xml
+    name: Engadget
+    category: Gadgets
+    weight: 1.0
+  - url: https://www.zdnet.com/news/rss.xml
+    name: ZDNET
+    category: Software
+    weight: 0.95
+
+  # ── Added in v6 (all free, public RSS) ──
+  - url: https://www.bleepingcomputer.com/feed/
+    name: BleepingComputer
+    category: Cybersecurity
+    weight: 1.1
+  - url: https://www.technologyreview.com/feed/
+    name: MIT Technology Review
+    category: AI
+    weight: 1.05
+  - url: https://9to5google.com/feed/
+    name: 9to5Google
+    category: Mobile
+    weight: 1.0
+  - url: https://9to5mac.com/feed/
+    name: 9to5Mac
+    category: Mobile
+    weight: 1.0
+  - url: https://www.androidauthority.com/feed/
+    name: Android Authority
+    category: Mobile
+    weight: 0.95
+  - url: https://www.theregister.com/headlines.atom
+    name: The Register
+    category: Software
+    weight: 1.0
+  - url: https://www.tomshardware.com/feeds/all
+    name: Tom's Hardware
+    category: Gadgets
+    weight: 0.9
+  - url: https://electrek.co/feed/
+    name: Electrek
+    category: Automotive
+    weight: 0.9
+  - url: https://www.thedailystar.net/tech-startup/rss.xml
+    name: The Daily Star (Tech)
+    category: Bangladesh
+    weight: 1.1
+    region: BD
+
+# Optional: extra keywords per category (merged with the built-in list)
+categories:
+  Bangladesh: [bangladesh, dhaka, bangladeshi, btrc, bkash, grameenphone, chattogram, sylhet]
