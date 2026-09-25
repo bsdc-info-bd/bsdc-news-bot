@@ -16,6 +16,14 @@ Every ~15 minutes it:
 
 ---
 
+## What changed in v7 (no AI, all local)
+
+* Every external language-model provider was removed: no Gemini, Groq, OpenRouter, Cloudflare or HuggingFace calls, no keys, no quotas, no `401`s, no cost.
+* Articles are written by `bsdc_news/cortex/` — 60+ modules of pure-Python text analysis and composition.
+* SEO is planned once per article by `bsdc_news/seo/` (title tag, meta description, slug, heading hierarchy, keyword density, internal links, breadcrumbs, OG/Twitter cards, sitemap and robots entries, JSON-LD graph) and scored by a 40-check on-page audit.
+* The published post is re-stamped with its real Blogger URL, so canonical, `og:url` and schema URLs are never wrong.
+* Indexing stays multi-channel and free: Google Indexing API, IndexNow (when the key file is reachable), Bing and WebSub hub pings — each degrading to a logged skip instead of failing the run.
+
 ## Quick start
 
 1. Keep your existing secrets (`BLOG_ID`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`). `INDEXING_SERVICE_ACCOUNT_JSON` stays optional (free, unlocks the Google Indexing API).
