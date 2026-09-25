@@ -41,12 +41,17 @@ class RunReport:
     version: str = __version__
     feeds_ok: int = 0
     feeds_failed: list[str] = field(default_factory=list)
+    @property
+    def ai(self) -> dict:
+        """Deprecated alias for :attr:`writer` (the report used to describe AI providers)."""
+        return self.writer
+
     candidates: int = 0
     filtered: dict[str, int] = field(default_factory=dict)
     outcomes: list[ItemOutcome] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     fatal_errors: list[str] = field(default_factory=list)
-    ai: dict = field(default_factory=dict)
+    writer: dict = field(default_factory=dict)
     indexing: dict = field(default_factory=dict)
     social: dict = field(default_factory=dict)
     duration_s: float = 0.0
@@ -105,9 +110,11 @@ class RunReport:
             lines += ["<details><summary>Filtered candidates</summary>", "",
                       *[f"- {k}: {v}" for k, v in sorted(self.filtered.items(), key=lambda x: -x[1])],
                       "", "</details>", ""]
-        if self.ai:
-            lines += [f"**AI:** providers `{', '.join(self.ai.get('configured', [])) or 'none'}` · "
-                      f"calls {self.ai.get('calls', 0)} · usage `{self.ai.get('usage', {})}`", ""]
+        if self.writer:
+            lines += [f"**Writer:** {self.writer.get('engine', 'local')} · "
+                      f"{self.writer.get('articles', 0)} articles · "
+                      f"{self.writer.get('calls', 0)} API calls · "
+                      f"{self.writer.get('cost', 'free')}", ""]
         if self.indexing:
             lines += ["**Indexing:** " + " · ".join(f"{k}: {v}" for k, v in self.indexing.items()), ""]
         if self.feeds_failed:

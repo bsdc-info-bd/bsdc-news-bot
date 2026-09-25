@@ -66,7 +66,16 @@ def unsupported_numbers(generated: str, source: str) -> set[str]:
 
 
 def assess(body_html: str, source_text: str, *, min_words: int = 450, target_words: int = 750,
-           min_score: int = 55, ai_generated: bool = True) -> QualityReport:
+           min_score: int = 55, full_article: bool = True,
+           ai_generated: bool | None = None) -> QualityReport:
+    """Score a finished article against the publishing bar.
+
+    `full_article` selects the strict bar (length, structure, originality) used for
+    engine-written articles; briefs are scored against the lighter bar. `ai_generated`
+    is the pre-v7 name for the same switch and is still accepted.
+    """
+    if ai_generated is not None:
+        full_article = ai_generated
     soup = BeautifulSoup(body_html or "", "lxml")
     text = strip_tags(body_html)
     words = word_count(text)
@@ -76,7 +85,7 @@ def assess(body_html: str, source_text: str, *, min_words: int = 450, target_wor
     paras = [p for p in soup.find_all("p") if word_count(p.get_text()) >= 5]
     lists = len(soup.find_all(["ul", "ol"]))
 
-    if ai_generated:
+    if full_article:
         if words < min_words:
             deficit = (min_words - words) / max(1, min_words)
             score -= int(15 + 45 * deficit)
@@ -120,7 +129,7 @@ def assess(body_html: str, source_text: str, *, min_words: int = 450, target_wor
     if long_paras:
         score -= 4
         issues.append(f"{len(long_paras)} very long paragraph(s)")
-    if not lists and ai_generated:
+    if not lists and full_article:
         score -= 3
 
     score = max(0, min(100, score))

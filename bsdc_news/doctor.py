@@ -7,12 +7,11 @@ from __future__ import annotations
 
 import json
 
-from .ai.base import GenerationRequest
-from .ai.router import build_router
-from .errors import AuthError, BotError, ConfigError
+from .errors import BotError, ConfigError
 from .http import HttpClient
 from .log import get_logger
 from .settings import Settings
+from .writer import GenerationRequest, build_writer
 
 log = get_logger("doctor")
 
@@ -65,32 +64,35 @@ def run_doctor(settings: Settings, deep: bool = True) -> int:
             c.fail("Blogger API", exc.describe().replace("\n", " "))
             blocking = True
 
-    # 3. AI providers
-    from .ai.gemini import describe_key
+    # 3. The writer: a local engine, so this is a self-test rather than a key check
 
-    gem_key = settings.secret("gemini_api_key")
-    if gem_key:
-        c.ok("GEMINI_API_KEY format", describe_key(gem_key)) if gem_key.startswith("AQ.") else \
-            c.warn("GEMINI_API_KEY format", describe_key(gem_key) +
-                   " — create a new key at https://aistudio.google.com/api-keys")
+    writer = build_writer(settings)
+    health = writer.health()
+    c.ok("Writer engine", f"{health['engine']} — no API key required "
+                          f"({health['gazetteer_entries']} gazetteer entries loaded)")
+    if not writer.enabled:
+        c.warn("Writer enabled", "writer.enabled is false — extractive briefs will be used")
     if deep:
-        router = build_router(settings)
-        if not router.providers:
-            c.warn("AI writer", "no AI provider key set — extractive briefs will be used. "
-                       "Free option: add a GROQ_API_KEY secret (https://console.groq.com/keys).")
-        for provider in router.providers:
-            req = GenerationRequest(title="Doctor test", text="The bsdc news doctor checks that the AI provider "
-                                    "works. It asks for a tiny JSON answer. " * 5, source="bsdc news",
-                                    url="https://example.com", max_output_tokens=2048, target_words=40, min_words=10)
-            req.prompt_template = ('Reply with JSON {{"headline": "OK", "body_html": "<p>OK</p>"}} for: {title} '
-                                   '{text} {site} {source} {published} {related} {target_words} {max_words} {categories}')
-            try:
-                draft = provider.generate(req)
-                c.ok(f"AI: {provider.name}", f"model {draft.model} responded")
-            except AuthError as exc:
-                c.fail(f"AI: {provider.name}", exc.describe().replace("\n", " "))
-            except BotError as exc:
-                c.warn(f"AI: {provider.name}", str(exc)[:220])
+        sample = ("The bsdc news doctor verifies the writing engine offline. "
+                  "It extracted 12 facts from a 400-word report published on Monday. "
+                  'The chief executive said the platform ships in October at $99. '
+                  '"We rebuilt the pipeline around local analysis," she told reporters. '
+                  "Analysts said the price cut will pressure rivals in Bangladesh. ") * 3
+        try:
+            draft = writer.generate(GenerationRequest(
+                title="Doctor self-test: engine writes an article offline",
+                text=sample, source="bsdc news doctor", url="https://example.com/doctor",
+                target_words=180, min_words=60, category="Technology"))
+            if draft is None:
+                c.fail("Writer self-test", "engine declined a valid sample article")
+                blocking = True
+            else:
+                c.ok("Writer self-test", f"{draft.words} words, quality {draft.quality_score}/100, "
+                                         f"confidence {draft.confidence:.2f}, "
+                                         f"{draft.timings.get('total', 0):.2f}s")
+        except Exception as exc:                       # noqa: BLE001 - report anything
+            c.fail("Writer self-test", f"{type(exc).__name__}: {exc}"[:220])
+            blocking = True
 
     # 4. Indexing
     sa = settings.secret("indexing_service_account_json")

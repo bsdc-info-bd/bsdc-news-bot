@@ -110,4 +110,4 @@ def test_render_full_post_has_schema_images_attribution(settings):
     assert "Key Takeaways" in html and "Frequently Asked Questions" in html
     assert "Read the original article" in html and "Also covered by The Verge" in html
     assert "facebook.com/sharer" in html and "Older post" in html
-    assert "written with the help of AI" in html
+    assert "compiled automatically" in html and "No external AI service" in html

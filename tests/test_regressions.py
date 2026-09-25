@@ -50,7 +50,7 @@ def test_legacy_modules_import_without_secrets(monkeypatch):
 
     for var in ("BLOG_ID", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "GOOGLE_REFRESH_TOKEN", "GEMINI_API_KEY"):
         monkeypatch.delenv(var, raising=False)
-    for name in ("config", "scraper", "ai_rewriter", "image_handler", "blogger_publisher", "indexing_engine"):
+    for name in ("config", "scraper", "image_handler", "blogger_publisher", "indexing_engine"):
         sys.modules.pop(name, None)
         importlib.import_module(name)
 
@@ -63,9 +63,13 @@ def test_requirements_do_not_pin_old_google_auth():
     assert not any(r.startswith("google-genai") for r in reqs)  # REST client used instead
 
 
-def test_default_gemini_models_are_current():
+def test_no_external_ai_provider_is_configured():
+    """v7 writes locally: no provider list, no model list, no key names in defaults."""
     from bsdc_news.settings import DEFAULTS
 
-    models = DEFAULTS["ai"]["gemini_models"]
-    assert models[0] != "gemini-2.5-flash"  # answered 401 ACCESS_TOKEN_TYPE_UNSUPPORTED in production
-    assert len(models) >= 3  # automatic fallback chain
+    assert "providers" not in DEFAULTS.get("ai", {})
+    assert "gemini_models" not in DEFAULTS.get("ai", {})
+    writer = DEFAULTS["writer"]
+    assert writer["enabled"] is True and writer["languages"] == ["en"]
+    assert writer["target_words"] >= writer["min_words"]
+    assert writer["quality_passes"] >= 1 and 0 < writer["novelty_threshold"] < 1

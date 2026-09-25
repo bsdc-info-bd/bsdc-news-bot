@@ -54,6 +54,15 @@ class ContentRejected(BotError):
     """Generated or extracted content failed a quality gate."""
 
 
+class DuplicateContent(ContentRejected):
+    """The story was already published: the novelty gate refused to rewrite it."""
+
+    def __init__(self, message: str, *, reasons: list[str] | None = None, score: float = 0.0) -> None:
+        super().__init__(message)
+        self.reasons = reasons or []
+        self.score = score
+
+
 class ExtractionError(BotError):
     """The article page could not be fetched or parsed."""
 

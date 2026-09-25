@@ -15,8 +15,8 @@ from __future__ import annotations
 import json
 from urllib.parse import urlsplit
 
-from .http import HttpClient
-from .log import get_logger
+from ..http import HttpClient
+from ..log import get_logger
 
 log = get_logger("indexing")
 
@@ -54,6 +54,9 @@ class GoogleIndexer:
 
     def publish(self, urls: list[str], kind: str = "URL_UPDATED") -> tuple[list[str], list[str], str]:
         """Returns (ok_urls, failed_urls, fatal_error)."""
+        if not self.info:
+            return [], list(urls), ("Google Indexing API not configured — set "
+                                    "INDEXING_SERVICE_ACCOUNT_JSON (free) to enable it")
         ok, failed = [], []
         for idx, url in enumerate(urls):
             try:

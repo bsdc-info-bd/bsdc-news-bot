@@ -57,24 +57,28 @@ DEFAULTS: dict[str, Any] = {
         "brief_label": "News Brief",  # extra label on posts written without AI ("" = none)
         "sleep_between_posts": 3,
     },
+    # The writer is the local cortex engine. It needs no API key, no provider list and
+    # no network access, so its settings are all about editorial behaviour.
+    "writer": {
+        "enabled": True,
+        "target_words": 700,
+        "min_words": 420,
+        "max_source_chars": 12000,
+        "grade_target": 12.0,          # simplify prose above this US school grade
+        "rewrite": True,               # paraphrase sentences copied verbatim
+        "min_facts": 3,                # fewer facts than this cannot support an article
+        "min_confidence": 0.30,        # reject a draft the source does not support
+        "quality_passes": 2,           # revision rounds against the quality gate
+        "novelty_threshold": 0.42,     # below this the story is already covered
+        "languages": ["en"],
+        "tone": "news",                # news | analysis | explainer | brief
+    },
+    # Legacy aliases: older configuration files still say [ai]. They keep working.
     "ai": {
         "enabled": True,
-        "providers": ["gemini", "groq", "openrouter", "cloudflare", "huggingface"],
-        # Several models = several free per-model quotas + protection against model retirement
-        "gemini_models": ["gemini-3.6-flash", "gemini-3.7-flash", "gemini-3.5-flash", "gemini-3.5-flash-lite",
-                          "gemini-flash-latest", "gemini-3.1-flash-lite", "gemini-2.5-flash-lite"],
-        "groq_models": ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.6-27b"],
-        "openrouter_models": ["openrouter/free"],
-        "cloudflare_models": ["@cf/openai/gpt-oss-120b", "@cf/meta/llama-3.3-70b-instruct-fp8-fast"],
-        "huggingface_models": ["openai/gpt-oss-20b"],
-        "temperature": 0.6,
-        "max_output_tokens": 8192,
-        "timeout": 120,
-        "min_words": 450,
-        "target_words": 750,
+        "min_words": 420,
+        "target_words": 700,
         "max_source_chars": 12000,
-        "max_calls_per_run": 12,
-        "prompt_file": "prompts/article.md",
     },
     "extraction": {
         "min_words": 180,
@@ -199,9 +203,13 @@ ENV_OVERRIDES = {
     "BSDC_SITE_URL": ("site", "url", str),
     "BSDC_SITE_NAME": ("site", "name", str),
     "BSDC_TIMEZONE": ("site", "timezone", str),
-    "BSDC_AI_ENABLED": ("ai", "enabled", "bool"),
-    "BSDC_AI_PROVIDERS": ("ai", "providers", "list"),
-    "BSDC_GEMINI_MODELS": ("ai", "gemini_models", "list"),
+    "BSDC_WRITER_ENABLED": ("writer", "enabled", "bool"),
+    "BSDC_WRITER_TARGET_WORDS": ("writer", "target_words", int),
+    "BSDC_WRITER_MIN_WORDS": ("writer", "min_words", int),
+    "BSDC_WRITER_GRADE_TARGET": ("writer", "grade_target", float),
+    "BSDC_WRITER_TONE": ("writer", "tone", str),
+    "BSDC_WRITER_LANGUAGES": ("writer", "languages", "list"),
+    "BSDC_AI_ENABLED": ("writer", "enabled", "bool"),   # legacy name, same switch
     "BSDC_LOG_LEVEL": ("logging", "level", str),
     "BSDC_STATE_PATH": ("state", "path", str),
     "BSDC_IMAGE_PROXY": ("images", "proxy", "bool"),
@@ -331,10 +339,13 @@ class Settings:
             except ValueError:
                 warnings.append("INDEXING_SERVICE_ACCOUNT_JSON is not valid JSON — Google Indexing API disabled")
 
-        ai_keys = [k for k in ("gemini_api_key", "groq_api_key", "openrouter_api_key",
-                               "cloudflare_api_token", "huggingface_token") if self.secrets.get(k)]
-        if self.get("ai.enabled") and not ai_keys:
-            warnings.append("No AI provider key configured — posts will use the built-in news brief writer")
+        # Articles are written by the local engine, so no model key is required.
+        # Legacy AI secrets, if still present, are simply ignored.
+        legacy_keys = [k for k in ("gemini_api_key", "groq_api_key", "openrouter_api_key",
+                                   "cloudflare_api_token", "huggingface_token") if self.secrets.get(k)]
+        if legacy_keys:
+            warnings.append("Unused legacy AI secret(s) present and ignored: "
+                            + ", ".join(legacy_keys) + " — the writer is fully local")
 
         if problems:
             raise ConfigError("\n".join(f"• {p}" for p in problems),

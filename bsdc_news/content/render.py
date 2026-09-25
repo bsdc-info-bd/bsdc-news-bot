@@ -1,6 +1,9 @@
 """Final Blogger post HTML: hero image, reading-time bar, key takeaways box,
 body with inline image, FAQ, source attribution, related posts, share buttons,
-"About" footer, AI disclosure and JSON-LD schema."""
+"About" footer, the machine-written disclosure and JSON-LD schema.
+
+When the SEO planner has run, its validated schema graph and internal links are used
+instead of the local builders, so every SEO decision is made in exactly one place."""
 
 from __future__ import annotations
 
@@ -32,7 +35,10 @@ class RenderInput:
     faq: list[dict] = field(default_factory=list)
     related_posts: list[dict] = field(default_factory=list)  # {title, url}
     related_sources: list[str] = field(default_factory=list)
-    ai_generated: bool = True
+    ai_generated: bool = False
+    machine_written: bool = True
+    seo_plan: object | None = None
+    engine: str = ""
     published_iso: str = ""
     source_published: str = ""
     original_author: str = ""
@@ -99,6 +105,33 @@ def share_bar(headline: str, post_url: str) -> str:
     return f'<div style="margin-top:22px;{FONT}"><span style="font-size:13px;color:#64748b;">Share: </span>{btns}</div>'
 
 
+def _apply_seo_body(body: str, plan, inp: RenderInput) -> str:
+    """Add the H1, breadcrumbs and internal links the SEO plan decided on.
+
+    Blogger renders the post title as its own H1 on the page, so the H1 here is only
+    emitted when the plan says the body needs one (custom templates, AMP, feeds).
+    """
+    if plan is None:
+        return body
+    out = body
+    crumbs = getattr(plan, "breadcrumbs", []) or []
+    if crumbs and getattr(inp, "seo_plan", None) is not None:
+        from ..seo.schema.breadcrumb import to_html
+
+        trail = to_html([(name, url) for name, url in crumbs])
+        if trail and "bsd-breadcrumbs" not in out:
+            out = trail + out
+    links = getattr(plan, "internal_links", []) or []
+    if links:
+        from ..seo.internal_links import related_box
+
+        box = related_box([{"url": item["url"], "title": item["title"],
+                            "anchor": item.get("anchor", item["title"])} for item in links])
+        if box and "bsd-related" not in out:
+            out = out + box
+    return out
+
+
 def build_post_html(inp: RenderInput, settings, post_url: str = "") -> str:
     """Render the post. Called twice by the publisher: before insert (no URL yet) and
     after insert with the real post URL, so schema + share links are self-referencing."""
@@ -144,9 +177,11 @@ def build_post_html(inp: RenderInput, settings, post_url: str = "") -> str:
     attribution += "</p>"
 
     disclosure = ""
-    if inp.ai_generated:
-        disclosure = (f'<p style="font-size:12px;color:#94a3b8;{FONT}">This story was written with the help of AI '
-                      f'from the cited source and reviewed by automated fact and quality checks.</p>')
+    if inp.machine_written or inp.ai_generated:
+        engine = inp.engine or "the bsdc news engine"
+        disclosure = (f'<p style="font-size:12px;color:#94a3b8;{FONT}">This story was compiled '
+                      f'automatically by {esc(engine)} from the cited source, then checked by '
+                      f'automated fact, style and quality gates. No external AI service was used.</p>')
 
     about = settings.get("site.about", "")
     footer = (f'<div style="margin-top:36px;padding:22px;background:#f8fafc;border-left:5px solid #2563eb;'
@@ -155,16 +190,25 @@ def build_post_html(inp: RenderInput, settings, post_url: str = "") -> str:
               f'<p style="margin:0;color:#475569;font-size:14px;line-height:1.6;">{esc(about)}</p></div>')
 
     image_urls = [u for _, u in inp.images]
-    schema = news_article_schema(
-        headline=inp.headline, description=inp.meta_description, images=image_urls,
-        published=inp.published_iso or iso(), site_name=site_name, site_url=site_url,
-        logo=settings.get("site.logo_url", ""), author=settings.get("site.author_name", site_name),
-        section=inp.category, keywords=inp.labels, words=inp.words,
-        language=settings.get("site.language", "en"), source_url=inp.source_url, url=post_url,
-    )
-    schemas = jsonld_tag(schema) + jsonld_tag(faq_schema(inp.faq)) + jsonld_tag(
-        breadcrumb_schema(site_name, site_url, inp.category, inp.headline, post_url))
+    plan = inp.seo_plan
+    planned_nodes = [node for node in (getattr(plan, "json_ld", []) or []) if node]
+    if planned_nodes:
+        # The planner already built and validated every node (article, FAQ,
+        # breadcrumbs, publisher, site, related list), so the renderer only emits them.
+        # One <script> per node is what Google's parser expects for separate entities.
+        schemas = "".join(jsonld_tag(node) for node in planned_nodes)
+    else:
+        schema = news_article_schema(
+            headline=inp.headline, description=inp.meta_description, images=image_urls,
+            published=inp.published_iso or iso(), site_name=site_name, site_url=site_url,
+            logo=settings.get("site.logo_url", ""), author=settings.get("site.author_name", site_name),
+            section=inp.category, keywords=inp.labels, words=inp.words,
+            language=settings.get("site.language", "en"), source_url=inp.source_url, url=post_url,
+        )
+        schemas = jsonld_tag(schema) + jsonld_tag(faq_schema(inp.faq)) + jsonld_tag(
+            breadcrumb_schema(site_name, site_url, inp.category, inp.headline, post_url))
 
+    body = _apply_seo_body(body, plan, inp)
     article = (f'<div class="bsdc-article" style="font-size:17px;line-height:1.85;color:#1e293b;'
                f'font-family:Georgia,\'Times New Roman\',serif;">'
                f'{info_bar}{key_points_box(inp.key_points)}{body}{faq_section(inp.faq)}</div>')

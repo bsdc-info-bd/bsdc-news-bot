@@ -56,12 +56,14 @@ def test_sanitize_secret_only_strips_wrappers():
 
 def test_settings_env_overrides_and_legacy_secret_names():
     s = load_settings(env={"BLOG_ID": "123456", "GEMINI_API_KEY": "AQ.key-value", "BSDC_MAX_POSTS": "7",
-                           "BSDC_AI_PROVIDERS": "groq, gemini", "BSDC_AI_ENABLED": "false"})
+                           "BSDC_WRITER_LANGUAGES": "en, bn", "BSDC_AI_ENABLED": "false",
+                           "BSDC_WRITER_TARGET_WORDS": "900"})
     assert s.secret("blog_id") == "123456"
-    assert s.secret("gemini_api_key") == "AQ.key-value"
+    assert s.secret("gemini_api_key") == "AQ.key-value"   # legacy secret name still readable
     assert s.get("publishing.max_posts_per_run") == 7
-    assert s.get("ai.providers") == ["groq", "gemini"]
-    assert s.get("ai.enabled") is False
+    assert s.get("writer.languages") == ["en", "bn"]
+    assert s.get("writer.target_words") == 900
+    assert s.get("writer.enabled") is False               # BSDC_AI_ENABLED maps to the writer
     assert s.feeds, "feeds.yaml should load"
 
 

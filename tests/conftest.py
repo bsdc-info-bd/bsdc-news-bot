@@ -11,10 +11,10 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from bsdc_news.ai.base import ArticleDraft  # noqa: E402
 from bsdc_news.http import SimpleResponse  # noqa: E402
 from bsdc_news.settings import load_settings  # noqa: E402
 from bsdc_news.utils import utcnow  # noqa: E402
+from bsdc_news.writer import ArticleDraft  # noqa: E402
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -163,7 +163,24 @@ class FakeRouter:
         return self.draft
 
     def health(self):
-        return {"configured": ["fake"], "auth_errors": self.auth_errors, "calls": self.calls, "usage": {}}
+        return {"engine": "fake-writer", "enabled": self.enabled, "requires_api_key": False,
+                "auth_errors": self.auth_errors, "calls": self.calls, "articles": self.calls,
+                "cost": "free", "usage": {}}
+
+    def describe(self, draft):
+        return f"{getattr(draft, 'words', 0)} words (fake writer)"
+
+    def plan_seo(self, draft, **kwargs):
+        """The real planner, so tests exercise the SEO layer end to end."""
+        try:
+            from bsdc_news.seo import planner as seo_planner
+
+            return seo_planner.plan(draft.as_cortex(), site_name="bsdc news",
+                                    site_url="https://bsdc-news.blogspot.com",
+                                    category=kwargs.get("category", ""),
+                                    related_posts=kwargs.get("related_posts") or [])
+        except Exception:                                # noqa: BLE001 - keep tests focused
+            return None
 
 
 @pytest.fixture

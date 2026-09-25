@@ -13,9 +13,9 @@ import math
 import re
 from collections import Counter
 
-from .ai.base import ArticleDraft
 from .dedupe import STOPWORDS, keywords
 from .utils import esc, normalize_space, truncate, word_count
+from .writer import ArticleDraft
 
 # Sentence boundary: terminal punctuation, optional closing quote/bracket, whitespace,
 # then an uppercase letter/digit/opening quote.  Implemented without variable-width

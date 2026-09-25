@@ -138,34 +138,49 @@ def test_brief_posts_get_brief_label(settings):
     assert "News Brief" in blogger.inserted[0]["labels"]
 
 
-def test_low_quality_ai_draft_is_retried_with_feedback_then_briefed(settings):
-    from bsdc_news.ai.base import ArticleDraft
+def test_low_quality_engine_draft_falls_back_to_brief(settings):
+    from bsdc_news.writer import ArticleDraft
 
     class Router(FakeRouter):
         def __init__(self):
-            super().__init__(ArticleDraft(headline="Bad", body_html="<p>Too short.</p>", provider="fake", model="m"))
-            self.feedback = []
+            super().__init__(ArticleDraft(headline="Bad", body_html="<p>Too short.</p>",
+                                          provider="fake", model="m"))
+            self.requests = []
 
         def generate(self, req):
-            self.feedback.append(req.feedback)
+            self.requests.append(req)
             return super().generate(req)
 
     router = Router()
     pipe, blogger, _ = make(settings, router=router)
     report = pipe.run()
-    assert router.calls == 2 and router.feedback[0] == "" and "too short" in router.feedback[1]
+    # The engine runs its own revision passes, so the pipeline asks exactly once and
+    # then falls back to the extractive brief instead of prompting a model again.
+    assert router.calls == 1 and router.requests[0].feedback == ""
     assert report.exit_code == EXIT_OK and "Example Tech reports" in blogger.inserted[0]["content"]
 
 
-def test_ai_auth_error_turns_run_red_once_per_day(settings):
-    router = FakeRouter(draft=None, auth_errors={"gemini": "401 for every model"})
+def test_writer_needs_no_api_key_and_run_stays_green(settings, monkeypatch):
+    """No credential can turn a successful run red, because nothing needs one."""
+    for var in ("GEMINI_API_KEY", "GROQ_API_KEY", "OPENROUTER_API_KEY", "CF_AI_TOKEN",
+                "HF_TOKEN", "OPENAI_API_KEY"):
+        monkeypatch.delenv(var, raising=False)
+    pipe, blogger, _ = make(settings)
+    report = pipe.run()
+    assert blogger.inserted, "articles are written locally with no key configured"
+    assert report.exit_code == EXIT_OK, report.fatal_errors
+    health = report.ai
+    assert health["requires_api_key"] is False and health["cost"] == "free"
+    assert not health["auth_errors"]
+
+
+def test_writer_auth_errors_are_escalated(settings):
+    """If a writer ever reports an auth error the run must not silently pass."""
+    router = FakeRouter(draft=None, auth_errors={"unexpected": "credential rejected"})
     pipe, blogger, _ = make(settings, router=router)
     report = pipe.run()
     assert blogger.inserted, "posts still go out with the fallback writer"
-    assert report.exit_code == EXIT_FAILED and "AI key rejected" in report.fatal_errors[0]
-    # second run within 24h: stays green (no alert spam), still publishes nothing new but no failure
-    pipe2, _, _ = make(settings, router=FakeRouter(draft=None, auth_errors={"gemini": "401"}))
-    assert pipe2.run().exit_code == EXIT_OK
+    assert report.exit_code == EXIT_FAILED and "auth errors" in report.fatal_errors[0]
 
 
 def test_state_is_rebuilt_from_blog_when_lost(settings):
