@@ -1,13 +1,13 @@
 # 📰 bsdc news — Smart Publisher v6
 
-A fully automated, smart news publishing system for the **bsdc news** Blogger site. It runs on **100% free** infrastructure: GitHub Actions, the Blogger API, Google's free APIs, and the free tiers of AI providers.
+A fully automated, smart news publishing system for the **bsdc news** Blogger site. It runs on **100% free** infrastructure: GitHub Actions, the Blogger API, Google's free APIs — and its own built-in writing engine, so **no AI provider, no API key and no per-article cost**.
 
 Every ~15 minutes it:
 
 1. reads 15 tech news feeds;
 2. picks the most important *new* stories, using trends, multi-source coverage and freshness;
 3. extracts the article text and images;
-4. writes an original, SEO-structured article with AI, with automatic fallback across 5 free AI providers;
+4. writes an original, SEO-structured article with the local **BSDC Cortex** engine (fact extraction, entity recognition, headline generation, readability control, paraphrasing, FAQ and TL;DR — all in pure Python);
 5. checks quality and facts;
 6. publishes to Blogger with schema.org markup;
 7. notifies search engines, shares to social networks, and reports everything.
@@ -18,8 +18,8 @@ Every ~15 minutes it:
 
 ## Quick start
 
-1. Keep your existing secrets (`BLOG_ID`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`, `GEMINI_API_KEY`, `INDEXING_SERVICE_ACCOUNT_JSON`).
-2. **Create a new Gemini key** at <https://aistudio.google.com/api-keys> and update `GEMINI_API_KEY` (the old key is rejected, see below). Optionally add a free `GROQ_API_KEY` as backup.
+1. Keep your existing secrets (`BLOG_ID`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`). `INDEXING_SERVICE_ACCOUNT_JSON` stays optional (free, unlocks the Google Indexing API).
+2. **Delete `GEMINI_API_KEY` / `GROQ_API_KEY` if you like** — v7 writes locally and ignores them. Nothing in the pipeline calls a language model any more, so the `401 ACCESS_TOKEN_TYPE_UNSUPPORTED` failure class is gone for good.
 3. **Install the v6 workflow** (one paste, only you can do it — bots need the `workflows` permission): open [`.github/workflows/auto_poster.yml`](.github/workflows/auto_poster.yml) on GitHub, click the pencil, replace its contents with [`docs/workflows/auto_poster.yml`](docs/workflows/auto_poster.yml) and commit. Without this step the old workflow still runs the new engine, but you lose the `doctor` / `dry_run` buttons, state between runs and the fixed schedule — see [docs/SETUP.md §6](docs/SETUP.md).
 4. **Actions → bsdc news 6.0 Smart Publisher → Run workflow → task `doctor`**. This checks everything and explains any fix.
 5. Run once with **dry_run = true**, then let the schedule take over.
@@ -112,25 +112,18 @@ Found in the real GitHub Actions logs. Every scheduled run showed ✅ "success" 
 52. Free **wsrv.nl** image CDN: resized, WebP, cached; no hot-linking.
 53. `width`/`height` on images (no layout shift) and lazy loading below the fold.
 
-### AI writing (free tiers)
-54. **Gemini** over REST with a chain of 7 current models (each with its own free quota).
-55. Automatic skip of retired or unavailable models (401/404).
-56. `thinkingLevel: low` for Gemini 3 (faster, cheaper) with automatic retry without it.
-57. JSON-mode output (headline, meta description, tags, key points, FAQ, category, focus keyword).
-58. **Groq** (gpt-oss-120b/20b, Qwen) with free-tier-safe request sizing.
-59. **OpenRouter** free router (`openrouter/free`).
-60. **Cloudflare Workers AI**.
-61. **Hugging Face** Inference Providers.
-62. Provider failover in any order you choose.
-63. Error classification: auth / quota / model / content / network.
-64. Circuit breaker: rejected or exhausted providers are paused (persisted between runs).
-65. Pause resets automatically when you rotate a key.
-66. Gemini quota pauses until the real reset (midnight Pacific).
-67. AI call budget per run.
-68. Key-format diagnostics (`AQ.` auth key vs deprecated `AIza` key), never printing the key.
-69. Editable editorial prompt (`prompts/article.md`).
-70. Robust JSON parsing (code fences, trailing commas, bare-HTML fallback).
-71. Quality-gate feedback loop: a rejected draft is regenerated with the editor's notes.
+### Writing engine (BSDC Cortex — local, free, keyless)
+54. **Fact extraction** — numbers, dates, quotes and claims are pulled from the source and scored, so every sentence is traceable to evidence.
+55. **Entity recognition** with a bundled gazetteer (people, companies, places, Bangladesh institutions) driving tags, schema and internal links.
+56. **Headline generation** with candidate ranking, length control, sentence case and a clickbait guard.
+57. **Outline planning** — sections are decided before they are written, with a word budget each.
+58. **Lede and standfirst composition** in house style, never opening on a quotation.
+59. **Paraphrase and simplification** to a target US grade level (default 12) with a coherence check.
+60. **TL;DR, key points and FAQ blocks** generated from the source and emitted as FAQPage schema.
+61. **Keyword extraction** (TF-IDF + RAKE + TextRank) with headline anchoring, entity truncation, verb-fragment rejection and stuffing protection.
+62. **Quality gate with revision passes** — length, readability, originality, structure and grounding are scored; a draft is revised or rejected rather than padded.
+63. **Novelty check** against published titles and bodies, so one story is never written twice.
+64. **Multilingual** — English by default, Bangla sources supported (`BSDC_WRITER_LANGUAGES=en,bn`), with Bangla-to-ASCII slug transliteration.
 
 ### Quality & safety
 72. Quality score 0–100 with a configurable threshold.
