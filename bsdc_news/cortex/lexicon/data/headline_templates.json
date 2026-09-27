@@ -1,0 +1,90 @@
+[
+ {
+  "pattern": "{actor} {verb} {object}",
+  "contextual": false
+ },
+ {
+  "pattern": "{actor} {verb} {object} as {detail}",
+  "contextual": false
+ },
+ {
+  "pattern": "{object}: what {actor} announced",
+  "contextual": false
+ },
+ {
+  "pattern": "{actor} confirms {claim}",
+  "contextual": true
+ },
+ {
+  "pattern": "{actor} {verb} {object} in {place}",
+  "contextual": true
+ },
+ {
+  "pattern": "{object} hits {percent}",
+  "contextual": true
+ },
+ {
+  "pattern": "{actor} sets {object} at {price}",
+  "contextual": true
+ },
+ {
+  "pattern": "{number} things to know about {object}",
+  "contextual": false
+ },
+ {
+  "pattern": "{object} explained: {detail}",
+  "contextual": false
+ },
+ {
+  "pattern": "Why {object} matters for {audience}",
+  "contextual": false
+ },
+ {
+  "pattern": "{actor} {verb} {object}, {detail}",
+  "contextual": false
+ },
+ {
+  "pattern": "{object} arrives {time}",
+  "contextual": true
+ },
+ {
+  "pattern": "{actor} faces {object}",
+  "contextual": false
+ },
+ {
+  "pattern": "{actor} vs {alternative}: {detail}",
+  "contextual": false
+ },
+ {
+  "pattern": "{percent} {object}: {detail}",
+  "contextual": true
+ },
+ {
+  "pattern": "{actor} moves on {object}",
+  "contextual": false
+ },
+ {
+  "pattern": "{object} in context: {detail}",
+  "contextual": false
+ },
+ {
+  "pattern": "{actor} says {claim}",
+  "contextual": true
+ },
+ {
+  "pattern": "Inside {actor}'s {object}",
+  "contextual": false
+ },
+ {
+  "pattern": "{object}: {claim}",
+  "contextual": false
+ },
+ {
+  "pattern": "{actor} {verb} {object} for {audience}",
+  "contextual": false
+ },
+ {
+  "pattern": "What {claim} means for {audience}",
+  "contextual": false
+ }
+]

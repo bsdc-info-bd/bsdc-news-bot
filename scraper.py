@@ -1,26 +1,20 @@
-import cloudscraper
-import trafilatura
-from bs4 import BeautifulSoup
+"""Backward-compatible wrapper around :mod:`bsdc_news.extractor` (v5 API)."""
+
+from bsdc_news.errors import ExtractionError
+from bsdc_news.extractor import Extractor
+from bsdc_news.http import HttpClient
+from bsdc_news.settings import load_settings
+
+_extractor = None
+
 
 def scrape_article_data(entry_url):
-    scraper = cloudscraper.create_scraper()
+    """Return ``(text, image_urls)`` or ``(None, [])`` exactly like v5 did."""
+    global _extractor
+    if _extractor is None:
+        _extractor = Extractor(HttpClient(), load_settings())
     try:
-        res = scraper.get(entry_url, timeout=12)
-        if res.status_code != 200: return None, []
-        
-        soup = BeautifulSoup(res.text, 'html.parser')
-        image_urls = []
-        
-        for img in soup.find_all('img'):
-            src = img.get('src') or img.get('data-src') or img.get('srcset')
-            if src and src.startswith('http'):
-                clean_src = src.split(' ')[0]
-                if not any(bad in clean_src.lower() for bad in ['avatar', 'logo', 'icon', 'tracker', 'ad-', '1x1', 'pixel', 'gravatar']):
-                    image_urls.append(clean_src)
-                    
-        image_urls = list(dict.fromkeys(image_urls))
-        raw_text = trafilatura.extract(res.text)
-        
-        return raw_text, image_urls
-    except Exception:
+        art = _extractor.extract(entry_url)
+    except ExtractionError:
         return None, []
+    return (art.text or None), [c.url for c in art.images]

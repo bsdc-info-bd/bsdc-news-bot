@@ -1,0 +1,123 @@
+# bsdc news — news sources
+# ------------------------------------------------------------------
+# Add, remove or disable feeds here. No code changes needed.
+#   url       RSS/Atom feed URL (required)
+#   name      display name used for attribution
+#   category  default category (auto-classification can override it)
+#   weight    ranking weight: 1.0 = normal, 1.2 = preferred, 0.8 = less
+#   max_items how many newest entries to consider per run
+#   enabled   false = keep in the list but don't use
+# ------------------------------------------------------------------
+
+feeds:
+  # ── Original v5 sources ──
+  - url: https://techcrunch.com/feed/
+    name: TechCrunch
+    category: Business
+    weight: 1.2
+  - url: https://feeds.arstechnica.com/arstechnica/index
+    name: Ars Technica
+    category: Technology
+    weight: 1.2
+  - url: https://www.theverge.com/rss/index.xml
+    name: The Verge
+    category: Technology
+    weight: 1.15
+  - url: https://www.wired.com/feed/rss
+    name: WIRED
+    category: Technology
+    weight: 1.0
+  - url: https://www.engadget.com/rss.xml
+    name: Engadget
+    category: Gadgets
+    weight: 1.0
+  - url: https://www.zdnet.com/news/rss.xml
+    name: ZDNET
+    category: Software
+    weight: 0.95
+
+  # ── Added in v6 (all free, public RSS) ──
+  - url: https://www.bleepingcomputer.com/feed/
+    name: BleepingComputer
+    category: Cybersecurity
+    weight: 1.1
+  - url: https://www.technologyreview.com/feed/
+    name: MIT Technology Review
+    category: AI
+    weight: 1.05
+  - url: https://9to5google.com/feed/
+    name: 9to5Google
+    category: Mobile
+    weight: 1.0
+  - url: https://9to5mac.com/feed/
+    name: 9to5Mac
+    category: Mobile
+    weight: 1.0
+  - url: https://www.androidauthority.com/feed/
+    name: Android Authority
+    category: Mobile
+    weight: 0.95
+  - url: https://www.theregister.com/headlines.atom
+    name: The Register
+    category: Software
+    weight: 1.0
+  - url: https://www.tomshardware.com/feeds/all
+    name: Tom's Hardware
+    category: Gadgets
+    weight: 0.9
+  - url: https://electrek.co/feed/
+    name: Electrek
+    category: Automotive
+    weight: 0.9
+  - url: https://www.thedailystar.net/tech-startup/rss.xml
+    name: The Daily Star (Tech)
+    category: Bangladesh
+    weight: 1.1
+    region: BD
+
+  # ── v7: wider source pool. Bangladesh first, then world wires, business,
+  #     technology, science, health, climate and sport. More independent sources
+  #     means better corroboration, better ranking and a real "wider coverage" block.
+  #     `python main.py doctor` reports any feed that stops resolving.
+  - {url: "https://en.prothom-alo.com/feed", name: "Prothom Alo (English)", category: Bangladesh, weight: 1.3, max_items: 10}
+  - {url: "https://www.dhakatribune.com/feed/", name: "Dhaka Tribune", category: Bangladesh, weight: 1.2, max_items: 10}
+  - {url: "https://bdnews24.com/rss.xml", name: "bdnews24.com", category: Bangladesh, weight: 1.2, max_items: 10}
+  - {url: "https://www.unb.com.bd/rss", name: "United News of Bangladesh", category: Bangladesh, weight: 1.1, max_items: 8}
+  - {url: "https://www.newagebd.com/feed", name: "New Age", category: Bangladesh, weight: 1.0, max_items: 8}
+  - {url: "https://www.tbsnews.net/rss.xml", name: "The Business Standard (BD)", category: Business, weight: 1.2, max_items: 10}
+  - {url: "http://www.espncricinfo.com/rss/content/story/feeds/0.xml", name: "ESPNcricinfo", category: Sports, weight: 1.2, max_items: 8}
+  - {url: "http://feeds.bbci.co.uk/news/world/asia/south_asia/rss.xml", name: "BBC South Asia", category: World, weight: 1.3, max_items: 10}
+  - {url: "http://feeds.bbci.co.uk/news/world/rss.xml", name: "BBC World", category: World, weight: 1.2, max_items: 10}
+  - {url: "https://www.aljazeera.com/xml/rss/all.xml", name: "Al Jazeera", category: World, weight: 1.1, max_items: 8}
+  - {url: "https://www.theguardian.com/world/rss", name: "The Guardian (World)", category: World, weight: 1.1, max_items: 8}
+  - {url: "https://rss.nytimes.com/services/xml/rss/nyt/World.xml", name: "The New York Times (World)", category: World, weight: 1.1, max_items: 8}
+  - {url: "https://rss.dw.com/rdf/rss-en-all", name: "DW News", category: World, weight: 1.0, max_items: 6}
+  - {url: "https://www.france24.com/en/rss", name: "France 24", category: World, weight: 1.0, max_items: 6}
+  - {url: "https://asia.nikkei.com/rss/feed/nar", name: "Nikkei Asia", category: Business, weight: 1.1, max_items: 6}
+  - {url: "https://www.scmp.com/rss/91/feed", name: "South China Morning Post (Asia)", category: World, weight: 1.0, max_items: 6}
+  - {url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114", name: "CNBC Top News", category: Business, weight: 1.1, max_items: 6}
+  - {url: "https://feeds.a.dj.com/rss/RSSWorldNews.xml", name: "WSJ World Business", category: Business, weight: 1.0, max_items: 6}
+  - {url: "https://economictimes.indiatimes.com/rssfeedstopstories.cms", name: "The Economic Times", category: Business, weight: 1.0, max_items: 6}
+  - {url: "https://news.ycombinator.com/rss", name: "Hacker News", category: Technology, weight: 0.9, max_items: 6}
+  - {url: "https://github.blog/feed/", name: "GitHub Blog", category: Technology, weight: 1.0, max_items: 6}
+  - {url: "https://thenextweb.com/feed", name: "The Next Web", category: Technology, weight: 1.0, max_items: 6}
+  - {url: "https://www.techradar.com/rss", name: "TechRadar", category: Technology, weight: 1.0, max_items: 6}
+  - {url: "https://venturebeat.com/feed/", name: "VentureBeat", category: AI, weight: 1.1, max_items: 6}
+  - {url: "https://feeds.feedburner.com/TheHackersNews", name: "The Hacker News (security)", category: Technology, weight: 1.0, max_items: 6}
+  - {url: "https://phys.org/rss-feed/", name: "Phys.org", category: Science, weight: 1.0, max_items: 6}
+  - {url: "https://www.sciencedaily.com/rss/all.xml", name: "ScienceDaily", category: Science, weight: 1.0, max_items: 6}
+  - {url: "https://www.nature.com/nature.rss", name: "Nature", category: Science, weight: 1.1, max_items: 6}
+  - {url: "https://www.newscientist.com/feed/home/", name: "New Scientist", category: Science, weight: 1.0, max_items: 6}
+  - {url: "https://www.who.int/rss-feeds/news-english.xml", name: "World Health Organization", category: Health, weight: 1.2, max_items: 8}
+  - {url: "https://www.theguardian.com/science/rss", name: "The Guardian (Science)", category: Science, weight: 1.0, max_items: 6}
+  - {url: "https://www.carbonbrief.org/feed", name: "Carbon Brief", category: Environment, weight: 1.0, max_items: 6}
+  - {url: "https://news.mongabay.com/feed/", name: "Mongabay", category: Environment, weight: 0.9, max_items: 6}
+  - {url: "https://www.theguardian.com/environment/rss", name: "The Guardian (Environment)", category: Environment, weight: 1.0, max_items: 6}
+  - {url: "https://www.espn.com/espn/rss/news", name: "ESPN", category: Sports, weight: 1.0, max_items: 6}
+  - {url: "https://feeds.bbci.co.uk/sport/rss.xml", name: "BBC Sport", category: Sports, weight: 1.0, max_items: 6}
+  - {url: "https://www.space.com/feeds/all", name: "Space.com", category: Science, weight: 0.9, max_items: 6}
+
+
+# Optional: extra keywords per category (merged with the built-in list)
+categories:
+  Bangladesh: [bangladesh, dhaka, bangladeshi, btrc, bkash, grameenphone, chattogram, sylhet]

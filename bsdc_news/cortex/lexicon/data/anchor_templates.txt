@@ -1,0 +1,9 @@
+{title}
+More on {title}
+Coverage: {title}
+See also: {title}
+Analysis: {title}
+Explainer: {title}
+{title} — the full report
+Background: {title}
+Related: {title}

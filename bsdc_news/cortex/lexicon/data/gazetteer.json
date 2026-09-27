@@ -1,0 +1,779 @@
+{
+ "Bangladesh Bank": {
+  "kind": "ORG",
+  "aliases": [
+   "BB",
+   "the central bank"
+  ],
+  "summary": "Bangladesh's central bank, which sets the policy rate, manages foreign reserves and licenses banks."
+ },
+ "Bangladesh Securities and Exchange Commission": {
+  "kind": "ORG",
+  "aliases": [
+   "BSEC"
+  ],
+  "summary": "The regulator of Bangladesh's capital markets and stock exchanges."
+ },
+ "Bangladesh Telecommunication Regulatory Commission": {
+  "kind": "ORG",
+  "aliases": [
+   "BTRC"
+  ],
+  "summary": "Bangladesh's telecoms and spectrum regulator, which licenses mobile operators."
+ },
+ "Dhaka Stock Exchange": {
+  "kind": "ORG",
+  "aliases": [
+   "DSE"
+  ],
+  "summary": "Bangladesh's largest stock market, where listed companies trade shares."
+ },
+ "Chattogram Stock Exchange": {
+  "kind": "ORG",
+  "aliases": [
+   "CSE"
+  ],
+  "summary": "Bangladesh's second stock exchange, based in Chattogram."
+ },
+ "Bangladesh Garment Manufacturers and Exporters Association": {
+  "kind": "ORG",
+  "aliases": [
+   "BGMEA"
+  ],
+  "summary": "The trade body for Bangladesh's ready-made garment exporters, the country's largest export sector."
+ },
+ "Bangladesh Cricket Board": {
+  "kind": "ORG",
+  "aliases": [
+   "BCB",
+   "Bangladesh Cricket Board"
+  ],
+  "summary": "The governing body of cricket in Bangladesh."
+ },
+ "BRAC": {
+  "kind": "ORG",
+  "aliases": [
+   "BRAC International"
+  ],
+  "summary": "The world's largest non-governmental development organisation, founded in Bangladesh in 1972."
+ },
+ "Grameen Bank": {
+  "kind": "ORG",
+  "aliases": [
+   "Grameen"
+  ],
+  "summary": "A Bangladeshi microfinance bank founded on small loans to the rural poor."
+ },
+ "Muhammad Yunus": {
+  "kind": "PERSON",
+  "aliases": [
+   "Yunus",
+   "Prof Yunus"
+  ],
+  "summary": "The Bangladeshi economist and Nobel peace laureate who founded Grameen Bank."
+ },
+ "Abdur Rouf Talukder": {
+  "kind": "PERSON",
+  "aliases": [
+   "Talukder",
+   "Governor Talukder"
+  ],
+  "summary": "Governor of Bangladesh Bank, who chairs the monetary policy committee."
+ },
+ "Jatiya Sangsad": {
+  "kind": "ORG",
+  "aliases": [
+   "National Parliament",
+   "Parliament"
+  ],
+  "summary": "Bangladesh's unicameral national parliament, seated in Dhaka."
+ },
+ "Ministry of Finance": {
+  "kind": "ORG",
+  "aliases": [
+   "Finance Ministry"
+  ],
+  "summary": "The Bangladeshi ministry that prepares the national budget and oversees fiscal policy."
+ },
+ "Ministry of Home Affairs": {
+  "kind": "ORG",
+  "aliases": [
+   "Home Ministry"
+  ],
+  "summary": "The Bangladeshi ministry responsible for police, borders and internal security."
+ },
+ "Bangladesh Bank governor": {
+  "kind": "PERSON",
+  "aliases": [],
+  "summary": "The head of Bangladesh's central bank and chair of its monetary policy committee."
+ },
+ "Bangladesh Bureau of Statistics": {
+  "kind": "ORG",
+  "aliases": [
+   "BBS"
+  ],
+  "summary": "The state agency that publishes Bangladesh's inflation, GDP and census data."
+ },
+ "Bangladesh Power Development Board": {
+  "kind": "ORG",
+  "aliases": [
+   "BPDB"
+  ],
+  "summary": "The state utility that generates and distributes electricity across Bangladesh."
+ },
+ "Bangladesh Railway": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The state-owned railway operator of Bangladesh."
+ },
+ "Biman Bangladesh Airlines": {
+  "kind": "ORG",
+  "aliases": [
+   "Biman"
+  ],
+  "summary": "Bangladesh's state-owned flag carrier airline."
+ },
+ "Bangladesh Police": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The national police force of Bangladesh, under the Ministry of Home Affairs."
+ },
+ "Rapid Action Battalion": {
+  "kind": "ORG",
+  "aliases": [
+   "RAB"
+  ],
+  "summary": "Bangladesh's elite counter-crime and counter-terrorism unit."
+ },
+ "Anti-Corruption Commission": {
+  "kind": "ORG",
+  "aliases": [
+   "ACC"
+  ],
+  "summary": "Bangladesh's independent anti-corruption watchdog."
+ },
+ "Bangladesh Election Commission": {
+  "kind": "ORG",
+  "aliases": [
+   "Election Commission"
+  ],
+  "summary": "The body that administers elections in Bangladesh."
+ },
+ "Supreme Court of Bangladesh": {
+  "kind": "ORG",
+  "aliases": [
+   "High Court",
+   "Appellate Division"
+  ],
+  "summary": "Bangladesh's highest court, comprising the Appellate and High Court divisions."
+ },
+ "Awami League": {
+  "kind": "ORG",
+  "aliases": [
+   "Bangladesh Awami League",
+   "AL"
+  ],
+  "summary": "One of Bangladesh's two largest political parties, led by Sheikh Hasina."
+ },
+ "Bangladesh Nationalist Party": {
+  "kind": "ORG",
+  "aliases": [
+   "BNP"
+  ],
+  "summary": "Bangladesh's main centre-right opposition party."
+ },
+ "Jamaat-e-Islami": {
+  "kind": "ORG",
+  "aliases": [
+   "Jamaat"
+  ],
+  "summary": "A Bangladeshi Islamist political party."
+ },
+ "Sheikh Hasina": {
+  "kind": "PERSON",
+  "aliases": [
+   "Hasina",
+   "Prime Minister Hasina"
+  ],
+  "summary": "Leader of the Awami League and long-serving prime minister of Bangladesh."
+ },
+ "Khaleda Zia": {
+  "kind": "PERSON",
+  "aliases": [],
+  "summary": "Former prime minister of Bangladesh and chairperson of the BNP."
+ },
+ "bKash": {
+  "kind": "ORG",
+  "aliases": [
+   "Bkash"
+  ],
+  "summary": "Bangladesh's largest mobile financial service provider, a subsidiary of BRAC Bank."
+ },
+ "Nagad": {
+  "kind": "ORG",
+  "aliases": [
+   "Nagad MFS"
+  ],
+  "summary": "A Bangladeshi mobile financial service operated by the postal department."
+ },
+ "BRAC Bank": {
+  "kind": "ORG",
+  "aliases": [
+   "BRAC Bank PLC"
+  ],
+  "summary": "A leading Bangladeshi private commercial bank."
+ },
+ "Dutch-Bangla Bank": {
+  "kind": "ORG",
+  "aliases": [
+   "DBBL"
+  ],
+  "summary": "A major Bangladeshi private bank with the country's largest card and ATM network."
+ },
+ "Islami Bank Bangladesh": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "Bangladesh's largest Islamic shariah-based bank."
+ },
+ "City Bank": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "A Bangladeshi private commercial bank listed on the Dhaka Stock Exchange."
+ },
+ "Walton": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "Bangladesh's largest electronics and refrigerator manufacturer."
+ },
+ "Beximco": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "A Bangladeshi conglomerate spanning textiles, pharmaceuticals, ceramics and media."
+ },
+ "Bashundhara Group": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "A Bangladeshi conglomerate active in real estate, paper, cement and media."
+ },
+ "Summit Power": {
+  "kind": "ORG",
+  "aliases": [
+   "Summit Power International"
+  ],
+  "summary": "A Bangladeshi independent power producer."
+ },
+ "Padma Bridge": {
+  "kind": "MISC",
+  "aliases": [],
+  "summary": "Bangladesh's longest bridge, linking the southwest to Dhaka across the Padma river."
+ },
+ "Rooppur Nuclear Power Plant": {
+  "kind": "MISC",
+  "aliases": [
+   "Rooppur"
+  ],
+  "summary": "Bangladesh's first nuclear power station, under construction with Russian assistance."
+ },
+ "Matarbari": {
+  "kind": "MISC",
+  "aliases": [
+   "Matarbari port"
+  ],
+  "summary": "A deep-sea port and coal-fired power complex on Bangladesh's southern coast."
+ },
+ "Bay Terminal": {
+  "kind": "MISC",
+  "aliases": [
+   "Chattogram Bay Terminal"
+  ],
+  "summary": "A planned deep-sea container terminal at Chattogram port."
+ },
+ "Bangladesh Football Federation": {
+  "kind": "ORG",
+  "aliases": [
+   "BFF"
+  ],
+  "summary": "The governing body of football in Bangladesh."
+ },
+ "Prothom Alo": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "Bangladesh's most widely read Bengali daily newspaper."
+ },
+ "The Daily Star": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "Bangladesh's largest English-language daily newspaper."
+ },
+ "United News of Bangladesh": {
+  "kind": "ORG",
+  "aliases": [
+   "UNB"
+  ],
+  "summary": "Bangladesh's state-linked news wire service."
+ },
+ "United Nations": {
+  "kind": "ORG",
+  "aliases": [
+   "UN",
+   "United Nations Security Council",
+   "UNSC"
+  ],
+  "summary": "The international organisation of 193 member states, founded in 1945."
+ },
+ "International Monetary Fund": {
+  "kind": "ORG",
+  "aliases": [
+   "IMF"
+  ],
+  "summary": "The multilateral lender of last resort that runs balance-of-payments programmes."
+ },
+ "World Bank": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "A multilateral development bank that funds projects in low- and middle-income countries."
+ },
+ "World Health Organization": {
+  "kind": "ORG",
+  "aliases": [
+   "WHO"
+  ],
+  "summary": "The United Nations agency that coordinates international public health."
+ },
+ "World Trade Organization": {
+  "kind": "ORG",
+  "aliases": [
+   "WTO"
+  ],
+  "summary": "The body that sets and arbitrates global trade rules."
+ },
+ "Asian Development Bank": {
+  "kind": "ORG",
+  "aliases": [
+   "ADB"
+  ],
+  "summary": "A multilateral development bank focused on Asia and the Pacific."
+ },
+ "European Union": {
+  "kind": "ORG",
+  "aliases": [
+   "EU",
+   "European Commission"
+  ],
+  "summary": "The 27-member political and economic union of European states."
+ },
+ "NATO": {
+  "kind": "ORG",
+  "aliases": [
+   "North Atlantic Treaty Organisation"
+  ],
+  "summary": "The North Atlantic Treaty Organisation, a 32-member military alliance."
+ },
+ "OPEC": {
+  "kind": "ORG",
+  "aliases": [
+   "OPEC+"
+  ],
+  "summary": "The Organization of the Petroleum Exporting Countries, which coordinates oil output."
+ },
+ "Federal Reserve": {
+  "kind": "ORG",
+  "aliases": [
+   "the Fed",
+   "Federal Reserve System"
+  ],
+  "summary": "The central bank of the United States, whose rate decisions move global markets."
+ },
+ "European Central Bank": {
+  "kind": "ORG",
+  "aliases": [
+   "ECB"
+  ],
+  "summary": "The central bank of the euro area, which sets euro interest rates."
+ },
+ "Bank of England": {
+  "kind": "ORG",
+  "aliases": [
+   "BoE"
+  ],
+  "summary": "The United Kingdom's central bank, which sets sterling interest rates and supervises banks."
+ },
+ "Reserve Bank of India": {
+  "kind": "ORG",
+  "aliases": [
+   "RBI"
+  ],
+  "summary": "India's central bank, which sets the repo rate that moves South Asian markets."
+ },
+ "State Bank of Pakistan": {
+  "kind": "ORG",
+  "aliases": [
+   "SBP"
+  ],
+  "summary": "Pakistan's central bank, responsible for the rupee, reserves and monetary policy."
+ },
+ "People's Bank of China": {
+  "kind": "ORG",
+  "aliases": [
+   "PBOC"
+  ],
+  "summary": "China's central bank, which sets the yuan reference rate and credit policy."
+ },
+ "Bank of Japan": {
+  "kind": "ORG",
+  "aliases": [
+   "BoJ"
+  ],
+  "summary": "Japan's central bank, long known for ultra-loose monetary policy and yield-curve control."
+ },
+ "FIFA": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "Football's world governing body, which organises the World Cup and sets transfer rules."
+ },
+ "International Cricket Council": {
+  "kind": "ORG",
+  "aliases": [
+   "ICC"
+  ],
+  "summary": "Cricket's world governing body, which sets playing conditions and runs global tournaments."
+ },
+ "Nobel Committee": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The Norwegian body that awards the Nobel peace prize."
+ },
+ "Nvidia": {
+  "kind": "ORG",
+  "aliases": [
+   "NVIDIA",
+   "Team Green"
+  ],
+  "summary": "The US chipmaker whose GPUs dominate AI training and inference."
+ },
+ "TSMC": {
+  "kind": "ORG",
+  "aliases": [
+   "Taiwan Semiconductor"
+  ],
+  "summary": "Taiwan Semiconductor Manufacturing Company, the world's largest contract chipmaker."
+ },
+ "Apple": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The US maker of the iPhone, Mac and iPad, and the world's most valuable company."
+ },
+ "Alphabet": {
+  "kind": "ORG",
+  "aliases": [
+   "Google"
+  ],
+  "summary": "Google's parent company, whose businesses include Search, YouTube and Android."
+ },
+ "Microsoft": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The US software group behind Windows, Office, Azure and a large stake in OpenAI."
+ },
+ "OpenAI": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The US research lab that builds the GPT family of language models and ChatGPT."
+ },
+ "Anthropic": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The US AI safety lab that builds the Claude family of models."
+ },
+ "Meta Platforms": {
+  "kind": "ORG",
+  "aliases": [
+   "Meta",
+   "Facebook"
+  ],
+  "summary": "The parent of Facebook, Instagram and WhatsApp."
+ },
+ "Amazon": {
+  "kind": "ORG",
+  "aliases": [
+   "AWS",
+   "Amazon Web Services"
+  ],
+  "summary": "The US e-commerce and cloud computing group that operates AWS."
+ },
+ "Samsung Electronics": {
+  "kind": "ORG",
+  "aliases": [
+   "Samsung"
+  ],
+  "summary": "South Korea's largest chaebol, making memory chips, phones and displays."
+ },
+ "SK Hynix": {
+  "kind": "ORG",
+  "aliases": [
+   "Hynix"
+  ],
+  "summary": "A South Korean memory chipmaker and a leading supplier of HBM."
+ },
+ "Micron Technology": {
+  "kind": "ORG",
+  "aliases": [
+   "Micron"
+  ],
+  "summary": "The largest US memory chipmaker."
+ },
+ "Intel": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The US chipmaker and foundry behind the x86 processor family."
+ },
+ "Advanced Micro Devices": {
+  "kind": "ORG",
+  "aliases": [
+   "AMD"
+  ],
+  "summary": "The US chipmaker that competes with Intel in CPUs and Nvidia in GPUs."
+ },
+ "Qualcomm": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The US chipmaker whose Snapdragon platform powers most Android phones."
+ },
+ "Broadcom": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The US semiconductor group that supplies custom AI accelerators and networking chips."
+ },
+ "ASML": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The Dutch maker of the extreme-ultraviolet lithography machines used for advanced chips."
+ },
+ "Arm Holdings": {
+  "kind": "ORG",
+  "aliases": [
+   "Arm"
+  ],
+  "summary": "The UK chip designer whose instruction set powers most smartphones."
+ },
+ "Tesla": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The US electric vehicle and energy storage maker led by Elon Musk."
+ },
+ "SpaceX": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The US rocket and Starlink satellite operator founded by Elon Musk."
+ },
+ "IBM": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The US computing group focused on enterprise software, consulting and quantum research."
+ },
+ "Oracle": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The US database and cloud infrastructure group."
+ },
+ "Huawei": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "China's largest telecoms equipment maker and smartphone brand."
+ },
+ "Xiaomi": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "A Chinese maker of smartphones and consumer electronics."
+ },
+ "ByteDance": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The Chinese owner of TikTok and Douyin."
+ },
+ "Google DeepMind": {
+  "kind": "ORG",
+  "aliases": [
+   "DeepMind"
+  ],
+  "summary": "Alphabet's AI research lab, formed from DeepMind and Google Brain."
+ },
+ "Mistral AI": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "A French open-weights language model lab."
+ },
+ "Groq": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "A US chipmaker building inference processors for language models."
+ },
+ "Salesforce": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The US customer-relationship software group."
+ },
+ "Adobe": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The US maker of Photoshop, Illustrator and the Firefly image models."
+ },
+ "Sony Group": {
+  "kind": "ORG",
+  "aliases": [
+   "Sony"
+  ],
+  "summary": "The Japanese electronics, games and entertainment group."
+ },
+ "JPMorgan Chase": {
+  "kind": "ORG",
+  "aliases": [
+   "JPMorgan"
+  ],
+  "summary": "The largest bank in the United States by assets."
+ },
+ "Goldman Sachs": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "A leading US investment bank and asset manager."
+ },
+ "BlackRock": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "The world's largest asset manager."
+ },
+ "Berkshire Hathaway": {
+  "kind": "ORG",
+  "aliases": [],
+  "summary": "Warren Buffett's diversified US holding company."
+ },
+ "Reliance Industries": {
+  "kind": "ORG",
+  "aliases": [
+   "Reliance",
+   "Jio"
+  ],
+  "summary": "India's largest private company, spanning energy, telecoms and retail."
+ },
+ "Tata Group": {
+  "kind": "ORG",
+  "aliases": [
+   "Tata",
+   "Tata Consultancy Services",
+   "TCS"
+  ],
+  "summary": "India's largest conglomerate, spanning steel, software, cars and airlines."
+ },
+ "Adani Group": {
+  "kind": "ORG",
+  "aliases": [
+   "Adani"
+  ],
+  "summary": "An Indian conglomerate in ports, energy and airports."
+ },
+ "Saudi Aramco": {
+  "kind": "ORG",
+  "aliases": [
+   "Aramco"
+  ],
+  "summary": "Saudi Arabia's state oil company and the world's largest oil producer."
+ },
+ "Jensen Huang": {
+  "kind": "PERSON",
+  "aliases": [
+   "Huang"
+  ],
+  "summary": "Co-founder and chief executive of Nvidia."
+ },
+ "Tim Cook": {
+  "kind": "PERSON",
+  "aliases": [
+   "Cook"
+  ],
+  "summary": "Chief executive of Apple, which designs the iPhone, Mac and iPad and runs its services business."
+ },
+ "Satya Nadella": {
+  "kind": "PERSON",
+  "aliases": [
+   "Nadella"
+  ],
+  "summary": "Chief executive of Microsoft, who shifted the company to cloud computing and an OpenAI partnership."
+ },
+ "Sundar Pichai": {
+  "kind": "PERSON",
+  "aliases": [
+   "Pichai"
+  ],
+  "summary": "Chief executive of Alphabet and Google."
+ },
+ "Sam Altman": {
+  "kind": "PERSON",
+  "aliases": [
+   "Altman"
+  ],
+  "summary": "Chief executive of OpenAI, the research lab behind ChatGPT and the GPT family of models."
+ },
+ "Elon Musk": {
+  "kind": "PERSON",
+  "aliases": [
+   "Musk"
+  ],
+  "summary": "Chief executive of Tesla and SpaceX and owner of X."
+ },
+ "Mark Zuckerberg": {
+  "kind": "PERSON",
+  "aliases": [
+   "Zuckerberg"
+  ],
+  "summary": "Co-founder and chief executive of Meta."
+ },
+ "Lisa Su": {
+  "kind": "PERSON",
+  "aliases": [
+   "Su"
+  ],
+  "summary": "Chief executive of Advanced Micro Devices."
+ },
+ "C.C. Wei": {
+  "kind": "PERSON",
+  "aliases": [
+   "Wei"
+  ],
+  "summary": "Chief executive of TSMC, the foundry that manufactures the most advanced chips in the world."
+ },
+ "Christine Lagarde": {
+  "kind": "PERSON",
+  "aliases": [
+   "Lagarde"
+  ],
+  "summary": "President of the European Central Bank."
+ },
+ "Jerome Powell": {
+  "kind": "PERSON",
+  "aliases": [
+   "Powell"
+  ],
+  "summary": "Chair of the United States Federal Reserve."
+ },
+ "Antonio Guterres": {
+  "kind": "PERSON",
+  "aliases": [
+   "Guterres"
+  ],
+  "summary": "Secretary-general of the United Nations."
+ },
+ "Tedros Adhanom Ghebreyesus": {
+  "kind": "PERSON",
+  "aliases": [
+   "Tedros"
+  ],
+  "summary": "Director-general of the World Health Organization."
+ },
+ "Kristalina Georgieva": {
+  "kind": "PERSON",
+  "aliases": [
+   "Georgieva"
+  ],
+  "summary": "Managing director of the International Monetary Fund."
+ }
+}

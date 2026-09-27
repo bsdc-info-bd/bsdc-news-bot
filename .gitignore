@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Local secrets — never commit these
+.env
+*.env
+client_secret*.json
+service_account*.json
+token.json
+
+# Bot runtime data (stored on the `bot-data` branch by the workflow).
+# These are anchored to the repository root on purpose: an unanchored `data/` also
+# swallowed bsdc_news/cortex/lexicon/data/, so the engine's bundled knowledge base
+# (gazetteer, FAQ patterns, synonyms, style guide, tech terms) was never committed
+# and vanished on the first clean checkout — silently, because the loader falls back
+# to empty defaults. tests/test_lexicon.py now fails loudly if that happens again.
+botdata/
+/data/
+reports/
+public/
+preview.html
+
+# The lexicon knowledge base is source code, not runtime data.
+!bsdc_news/cortex/lexicon/data/
+!bsdc_news/cortex/lexicon/data/**

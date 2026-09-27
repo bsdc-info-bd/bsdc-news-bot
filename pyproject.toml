@@ -1,0 +1,24 @@
+[project]
+name = "bsdc-news"
+version = "6.0.0"
+description = "Smart, fully automated news publishing system for the bsdc news Blogger site (free stack)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+extend-exclude = ["reports", "data", "docs"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "I", "UP", "SIM"]
+ignore = ["E501", "B008", "SIM105", "SIM108", "B904"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]
