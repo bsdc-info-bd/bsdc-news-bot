@@ -38,6 +38,7 @@ from .semantic import novelty as novelty_mod
 from .text import normalize
 from .text import sentences as sentences_mod
 from .types import ArticleDraft, ArticleRequest, Fact
+from .writing import extender
 from .writing import attribution, compose, simplify
 from .writing import bullets as bullets_mod
 from .writing import faq as faq_mod
@@ -281,6 +282,23 @@ class CortexEngine:
             if produced.paragraphs or produced.bullets or produced.specs or produced.quotes:
                 written.append(produced)
         timings["sections"] = round(time.perf_counter() - step, 3)
+
+        # Smart extender: a draft that is short because the composer was terse - not
+        # because the source is thin - is grown with evidence the source already holds.
+        step = time.perf_counter()
+        if written and floor_words:
+            have = len(lede.split()) + sum(len(p.split()) for sec in written for p in sec.paragraphs)
+            if have < floor_words:
+                extra = extender.extend(
+                    facts=analysis.facts, source=analysis.text,
+                    existing=lede + " " + " ".join(p for sec in written for p in sec.paragraphs),
+                    quotes=analysis.quotes, actor=analysis.actor, entities=analysis.entities,
+                    gazetteer=self.gazetteer, related=list(req.related or []),
+                    source_name=req.source, need_words=floor_words - have,
+                    max_words=max(0, int(source_words * 1.45) - have))
+                if extra:
+                    written[-1].paragraphs.extend(extra)
+        timings["extender"] = round(time.perf_counter() - step, 3)
 
         step = time.perf_counter()
         tldr_items = tldr_mod.build(analysis.facts, lede=lede)
