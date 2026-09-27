@@ -26,7 +26,6 @@ import re
 
 from ..semantic.similarity import token_similarity
 from ..text.normalize import squish
-from ..text.sentences import split_sentences
 
 MAX_NEW_BLOCKS = 8
 MIN_BLOCK_WORDS = 12
@@ -54,6 +53,33 @@ def _trim(text: str) -> str:
     if len(words) > MAX_BLOCK_WORDS:
         text = " ".join(words[:MAX_BLOCK_WORDS]).rstrip(",;:") + "."
     return text
+
+
+def _lexicon_entries() -> dict:
+    """The bundled gazetteer, including the one-line summaries the engine writes with."""
+    try:
+        from ..lexicon import loader
+
+        return dict(loader.gazetteer_entries())
+    except Exception:                                      # noqa: BLE001 - never block writing
+        return {}
+
+
+def _summary_for(name: str, entries: dict) -> str:
+    """A grounded sentence of background about `name`, or nothing at all."""
+    key = squish(name).lower()
+    for candidate, entry in (entries or {}).items():
+        surfaces = [squish(candidate).lower()]
+        surfaces += [squish(str(alias)).lower() for alias in (entry.get("aliases") or [])]
+        if key not in surfaces:
+            continue
+        summary = squish(str(entry.get("summary") or ""))
+        if _words(summary) < 6:
+            continue
+        if key.split()[0] not in summary.lower():
+            summary = f"{candidate}: {summary}"     # name the entity the context is about
+        return summary
+    return ""
 
 
 def unused_fact_blocks(facts, source: str, existing: str, *, limit: int = 4) -> list[str]:
@@ -96,12 +122,11 @@ def number_explainers(facts, source: str, existing: str, *, limit: int = 2) -> l
 
 def background_blocks(actor: str, entities, gazetteer, existing: str, *, limit: int = 2) -> list[str]:
     """Context from the bundled gazetteer — offline, free and sourced from our own data."""
-    if gazetteer is None:
+    entries = _lexicon_entries()
+    if gazetteer is None and not entries:
         return []
     describe = getattr(gazetteer, "describe", None) or getattr(gazetteer, "about", None)
     lookup = getattr(gazetteer, "lookup", None)
-    if describe is None and lookup is None:
-        return []
     names: list[str] = []
     if actor:
         names.append(str(actor))
@@ -111,12 +136,21 @@ def background_blocks(actor: str, entities, gazetteer, existing: str, *, limit: 
             names.append(name)
     out: list[str] = []
     for name in names:
+        note = None
         try:
-            note = describe(name) if describe is not None else lookup(name)
+            if describe is not None:
+                note = describe(name)
+            elif lookup is not None:
+                note = lookup(name)
         except Exception:                                  # noqa: BLE001 - never block writing
+            note = None
+        if not isinstance(note, str) or _words(note) < MIN_BLOCK_WORDS:
+            # Fall back to the bundled summary: one line of context about the actor.
+            note = _summary_for(name, entries)
+        if not note:
             continue
         text = _trim(note if isinstance(note, str) else getattr(note, "summary", "") or "")
-        if _words(text) < MIN_BLOCK_WORDS or not _fresh(text, existing):
+        if _words(text) < 8 or not _fresh(text, existing):
             continue
         out.append(text)
         existing = f"{existing} {text}"

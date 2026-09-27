@@ -1,0 +1,100 @@
+{
+ "addition": [
+  "In addition,",
+  "The statement also noted that",
+  "Separately,",
+  "Alongside that,",
+  "The same document added that",
+  "Beyond that,",
+  "Equally,",
+  "The report went on to say"
+ ],
+ "contrast": [
+  "However,",
+  "By contrast,",
+  "Even so,",
+  "That said,",
+  "On the other hand,",
+  "In practice,",
+  "Still,",
+  "Against that,"
+ ],
+ "cause": [
+  "because",
+  "as",
+  "since",
+  "given that",
+  "owing to",
+  "on the back of",
+  "after"
+ ],
+ "effect": [
+  "As a result,",
+  "That means",
+  "The consequence is that",
+  "In response,",
+  "Which leaves",
+  "That leaves",
+  "The effect is that"
+ ],
+ "sequence": [
+  "First,",
+  "Next,",
+  "Then,",
+  "After that,",
+  "Finally,",
+  "Later,",
+  "Subsequently,"
+ ],
+ "example": [
+  "For example,",
+  "For instance,",
+  "One case is",
+  "Such as",
+  "Including",
+  "Notably,"
+ ],
+ "emphasis": [
+  "Crucially,",
+  "Importantly,",
+  "In particular,",
+  "Above all,",
+  "Notably,",
+  "Key to this is"
+ ],
+ "concession": [
+  "Admittedly,",
+  "While that is true,",
+  "Although",
+  "Even though",
+  "Granted,"
+ ],
+ "summary": [
+  "In short,",
+  "Overall,",
+  "Taken together,",
+  "On balance,",
+  "In summary,"
+ ],
+ "comparison": [
+  "Similarly,",
+  "Likewise,",
+  "In the same way,",
+  "Compared with",
+  "As with"
+ ],
+ "time": [
+  "Meanwhile,",
+  "At the same time,",
+  "Since then,",
+  "Until now,",
+  "Earlier,",
+  "Currently,"
+ ],
+ "restatement": [
+  "In other words,",
+  "Put simply,",
+  "That is,",
+  "Which means"
+ ]
+}

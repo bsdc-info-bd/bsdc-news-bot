@@ -1,0 +1,523 @@
+{
+ "said": [
+  "stated",
+  "noted",
+  "told reporters",
+  "explained"
+ ],
+ "announced": [
+  "unveiled",
+  "declared",
+  "confirmed",
+  "revealed"
+ ],
+ "increased": [
+  "raised",
+  "lifted",
+  "hiked",
+  "stepped up"
+ ],
+ "decreased": [
+  "cut",
+  "lowered",
+  "reduced",
+  "trimmed"
+ ],
+ "big": [
+  "large",
+  "substantial",
+  "significant",
+  "sizeable"
+ ],
+ "small": [
+  "modest",
+  "limited",
+  "slight",
+  "narrow"
+ ],
+ "fast": [
+  "rapid",
+  "swift",
+  "quick",
+  "accelerated"
+ ],
+ "slow": [
+  "sluggish",
+  "gradual",
+  "measured"
+ ],
+ "show": [
+  "indicate",
+  "suggest",
+  "reveal",
+  "demonstrate"
+ ],
+ "expect": [
+  "anticipate",
+  "forecast",
+  "project",
+  "predict"
+ ],
+ "help": [
+  "support",
+  "aid",
+  "assist",
+  "enable"
+ ],
+ "problem": [
+  "issue",
+  "challenge",
+  "difficulty"
+ ],
+ "improve": [
+  "strengthen",
+  "enhance",
+  "bolster",
+  "upgrade"
+ ],
+ "reduce": [
+  "cut",
+  "lower",
+  "trim",
+  "ease"
+ ],
+ "buy": [
+  "acquire",
+  "purchase",
+  "take over"
+ ],
+ "sell": [
+  "offload",
+  "divest",
+  "sell off"
+ ],
+ "start": [
+  "launch",
+  "begin",
+  "initiate",
+  "roll out"
+ ],
+ "end": [
+  "close",
+  "conclude",
+  "wind down"
+ ],
+ "grow": [
+  "expand",
+  "climb",
+  "rise",
+  "increase"
+ ],
+ "fall": [
+  "drop",
+  "slide",
+  "decline",
+  "slip"
+ ],
+ "cheap": [
+  "affordable",
+  "low-cost",
+  "inexpensive"
+ ],
+ "expensive": [
+  "costly",
+  "premium",
+  "pricey"
+ ],
+ "new": [
+  "fresh",
+  "additional",
+  "latest"
+ ],
+ "old": [
+  "existing",
+  "previous",
+  "earlier"
+ ],
+ "many": [
+  "several",
+  "numerous",
+  "multiple"
+ ],
+ "people": [
+  "residents",
+  "customers",
+  "users",
+  "citizens"
+ ],
+ "government": [
+  "administration",
+  "authorities",
+  "the ministry"
+ ],
+ "bank": [
+  "lender",
+  "financial institution"
+ ],
+ "deal": [
+  "agreement",
+  "pact",
+  "contract"
+ ],
+ "plan": [
+  "proposal",
+  "scheme",
+  "programme"
+ ],
+ "report": [
+  "study",
+  "survey",
+  "analysis"
+ ],
+ "price": [
+  "cost",
+  "rate",
+  "tariff"
+ ],
+ "tax": [
+  "levy",
+  "duty"
+ ],
+ "job": [
+  "role",
+  "position",
+  "post"
+ ],
+ "worker": [
+  "employee",
+  "staff member"
+ ],
+ "boss": [
+  "chief executive",
+  "head",
+  "chair"
+ ],
+ "win": [
+  "secure",
+  "claim",
+  "take"
+ ],
+ "lose": [
+  "miss",
+  "drop",
+  "concede"
+ ],
+ "ban": [
+  "prohibit",
+  "bar",
+  "restrict"
+ ],
+ "allow": [
+  "permit",
+  "approve",
+  "authorise"
+ ],
+ "build": [
+  "construct",
+  "develop",
+  "assemble"
+ ],
+ "fix": [
+  "repair",
+  "resolve",
+  "address"
+ ],
+ "change": [
+  "shift",
+  "revise",
+  "amend"
+ ],
+ "keep": [
+  "retain",
+  "maintain",
+  "hold"
+ ],
+ "give": [
+  "provide",
+  "offer",
+  "supply"
+ ],
+ "get": [
+  "obtain",
+  "secure",
+  "receive"
+ ],
+ "ask": [
+  "request",
+  "urge",
+  "call on"
+ ],
+ "tell": [
+  "inform",
+  "notify",
+  "brief"
+ ],
+ "think": [
+  "believe",
+  "assess",
+  "judge"
+ ],
+ "worry": [
+  "concern",
+  "alarm",
+  "trouble"
+ ],
+ "safe": [
+  "secure",
+  "protected"
+ ],
+ "risky": [
+  "uncertain",
+  "exposed"
+ ],
+ "clear": [
+  "evident",
+  "plain",
+  "unambiguous"
+ ],
+ "unclear": [
+  "ambiguous",
+  "uncertain"
+ ],
+ "likely": [
+  "expected",
+  "probable"
+ ],
+ "unlikely": [
+  "improbable",
+  "doubtful"
+ ],
+ "often": [
+  "frequently",
+  "regularly",
+  "repeatedly"
+ ],
+ "sometimes": [
+  "occasionally",
+  "at times"
+ ],
+ "quickly": [
+  "rapidly",
+  "swiftly",
+  "promptly"
+ ],
+ "slowly": [
+  "gradually",
+  "steadily"
+ ],
+ "now": [
+  "currently",
+  "at present"
+ ],
+ "soon": [
+  "shortly",
+  "in the coming weeks"
+ ],
+ "later": [
+  "subsequently",
+  "afterwards"
+ ],
+ "before": [
+  "earlier",
+  "previously"
+ ],
+ "after": [
+  "following",
+  "subsequent to"
+ ],
+ "because": [
+  "as",
+  "since",
+  "given that"
+ ],
+ "but": [
+  "however",
+  "yet",
+  "although"
+ ],
+ "so": [
+  "therefore",
+  "as a result",
+  "consequently"
+ ],
+ "also": [
+  "additionally",
+  "in addition",
+  "too"
+ ],
+ "about": [
+  "approximately",
+  "roughly",
+  "around"
+ ],
+ "nearly": [
+  "almost",
+  "close to"
+ ],
+ "rise": [
+  "increase",
+  "climb",
+  "gain"
+ ],
+ "drop": [
+  "fall",
+  "decline",
+  "slip"
+ ],
+ "high": [
+  "elevated",
+  "steep",
+  "record"
+ ],
+ "low": [
+  "depressed",
+  "minimal",
+  "weak"
+ ],
+ "strong": [
+  "robust",
+  "solid",
+  "resilient"
+ ],
+ "weak": [
+  "fragile",
+  "soft",
+  "subdued"
+ ],
+ "good": [
+  "positive",
+  "favourable",
+  "solid"
+ ],
+ "bad": [
+  "poor",
+  "adverse",
+  "negative"
+ ],
+ "hard": [
+  "difficult",
+  "challenging",
+  "tough"
+ ],
+ "easy": [
+  "straightforward",
+  "simple"
+ ],
+ "important": [
+  "significant",
+  "critical",
+  "key"
+ ],
+ "major": [
+  "significant",
+  "substantial",
+  "leading"
+ ],
+ "main": [
+  "principal",
+  "primary",
+  "central"
+ ],
+ "top": [
+  "leading",
+  "highest",
+  "senior"
+ ],
+ "local": [
+  "domestic",
+  "in-country",
+  "regional"
+ ],
+ "global": [
+  "worldwide",
+  "international"
+ ],
+ "national": [
+  "countrywide",
+  "national-level"
+ ],
+ "foreign": [
+  "overseas",
+  "international"
+ ],
+ "public": [
+  "state",
+  "government-run"
+ ],
+ "private": [
+  "commercial",
+  "non-state"
+ ],
+ "online": [
+  "digital",
+  "internet-based"
+ ],
+ "offline": [
+  "in-person",
+  "physical"
+ ],
+ "company": [
+  "firm",
+  "business",
+  "operator"
+ ],
+ "country": [
+  "nation",
+  "economy"
+ ],
+ "city": [
+  "urban centre",
+  "metropolitan area"
+ ],
+ "factory": [
+  "plant",
+  "facility",
+  "mill"
+ ],
+ "farmers": [
+  "growers",
+  "cultivators"
+ ],
+ "students": [
+  "pupils",
+  "undergraduates"
+ ],
+ "doctors": [
+  "physicians",
+  "clinicians"
+ ],
+ "police": [
+  "officers",
+  "law enforcement"
+ ],
+ "ministers": [
+  "cabinet members",
+  "ministry officials"
+ ],
+ "investors": [
+  "shareholders",
+  "fund managers"
+ ],
+ "consumers": [
+  "buyers",
+  "customers",
+  "households"
+ ],
+ "experts": [
+  "analysts",
+  "specialists",
+  "researchers"
+ ],
+ "officials": [
+  "authorities",
+  "civil servants"
+ ],
+ "critics": [
+  "detractors",
+  "opponents"
+ ],
+ "supporters": [
+  "backers",
+  "advocates"
+ ]
+}

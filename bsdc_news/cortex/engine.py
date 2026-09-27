@@ -38,8 +38,7 @@ from .semantic import novelty as novelty_mod
 from .text import normalize
 from .text import sentences as sentences_mod
 from .types import ArticleDraft, ArticleRequest, Fact
-from .writing import extender
-from .writing import attribution, compose, simplify
+from .writing import attribution, compose, extender, simplify
 from .writing import bullets as bullets_mod
 from .writing import faq as faq_mod
 from .writing import headline as headline_mod
@@ -289,7 +288,7 @@ class CortexEngine:
         if written and floor_words:
             have = len(lede.split()) + sum(len(p.split()) for sec in written for p in sec.paragraphs)
             if have < floor_words:
-                extra = extender.extend(
+                extra = extender.extend(  # never let growth break an otherwise good draft
                     facts=analysis.facts, source=analysis.text,
                     existing=lede + " " + " ".join(p for sec in written for p in sec.paragraphs),
                     quotes=analysis.quotes, actor=analysis.actor, entities=analysis.entities,
