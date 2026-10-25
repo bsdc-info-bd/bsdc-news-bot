@@ -14,7 +14,7 @@ Every ~15 minutes it:
 
 > **Upgrading from v5?** Nothing to change: `python main.py` and all secret names are the same. See [What was broken in v5](#what-was-broken-in-v5-and-is-fixed-now).
 
----
+---hello world it's the cortex engine of bsdc news 
 
 ## What changed in v7 (no AI, all local)
 
